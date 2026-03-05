@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page Not Found | Surviving Spiritual Stalking">
+	<main class="error-layout">
+		<div class="container text-center">
+			<h1 class="error-code">404</h1>
+			<h2 class="mb-4">You've Wandered Off The Path</h2>
+			<p class="mb-8 desc-text">
+				The page you are looking for doesn't exist or has been moved.
+			</p>
+			<a href="/" class="btn-primary">
+				Return Home
+			</a>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	.error-layout {
+		min-height: 80vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.error-code {
+		font-size: 8rem;
+		font-weight: 900;
+		background: linear-gradient(135deg, var(--primary), var(--secondary));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		line-height: 1;
+		margin-bottom: 1rem;
+	}
+
+	.desc-text {
+		color: var(--text-muted);
+		font-size: 1.25rem;
+		max-width: 500px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+</style>

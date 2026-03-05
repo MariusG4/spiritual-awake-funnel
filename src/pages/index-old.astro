@@ -1,0 +1,50 @@
+---
+import LayoutOld from '../layouts/LayoutOld.astro';
+import HeroOld from '../components/HeroOld.astro';
+import BenefitsOld from '../components/BenefitsOld.astro';
+import Testimonials from '../components/Testimonials.astro';
+import VSL from '../components/VSL.astro';
+import FAQ from '../components/FAQ.astro';
+import OfferBoxOld from '../components/OfferBoxOld.astro';
+---
+
+<LayoutOld title="Surviving Spiritual Stalking - Original Design">
+	
+	<main>
+		<HeroOld />
+		
+		<div class="divider"></div>
+		
+		<VSL />
+		
+		<div class="divider"></div>
+		
+		<BenefitsOld />
+		
+		<div class="divider"></div>
+		
+		<Testimonials />
+		
+		<div class="divider"></div>
+		
+		<FAQ />
+		
+		<div class="divider"></div>
+		
+		<OfferBoxOld />
+	</main>
+
+</LayoutOld>
+
+<style>
+	main {
+		min-height: 100vh;
+	}
+	.divider {
+		height: 1px;
+		background: radial-gradient(circle, var(--glass-border) 0%, transparent 80%);
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+</style>

@@ -1,0 +1,134 @@
+---
+---
+<section class="faq-section">
+  <div class="container">
+    <div class="text-center mb-12">
+      <h2>Frequently Asked Questions</h2>
+      <p class="section-desc">Got questions? We've got answers.</p>
+    </div>
+
+    <div class="faq-accordion glass-panel">
+      <!-- FAQ 1 -->
+      <details class="faq-item">
+        <summary>What exactly is spiritual stalking?</summary>
+        <div class="faq-content">
+          <p>Spiritual stalking occurs when a person, group, or entity persistently attaches to your energy field without your consent. This can manifest as chronic exhaustion, sudden mood swings, feeling watched, or unexplainable streaks of "bad luck".</p>
+        </div>
+      </details>
+
+      <!-- FAQ 2 -->
+      <details class="faq-item">
+        <summary>Will these techniques work if I've never done energy work before?</summary>
+        <div class="faq-content">
+          <p>Yes. The guide is designed to be highly approachable. We use practical, reproducible frameworks that do not require years of meditation or esoteric knowledge to apply successfully.</p>
+        </div>
+      </details>
+
+      <!-- FAQ 3 -->
+      <details class="faq-item">
+        <summary>How do I access the materials after purchase?</summary>
+        <div class="faq-content">
+          <p>Immediately after checkout via Whop, you'll receive an email with your secure login details. You will have instant access to the PDF guide and the private community platform.</p>
+        </div>
+      </details>
+      
+      <!-- FAQ 4 -->
+      <details class="faq-item">
+        <summary>Is there a money-back guarantee?</summary>
+        <div class="faq-content">
+          <p>We stand by our methods. If you actively apply the shielding techniques for 30 days and see no reduction in your symptoms, reach out to our support team for a full refund.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    padding: 4rem 0 6rem;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+  }
+
+  .faq-accordion {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0; /* Override glass-panel padding */
+    overflow: hidden;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .faq-item:last-child {
+    border-bottom: none;
+  }
+
+  summary {
+    padding: 1.5rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    position: relative;
+    color: var(--text-main);
+    transition: background var(--transition-fast);
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    content: '+';
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--primary);
+    transition: transform 0.3s;
+  }
+
+  details[open] summary {
+    background: rgba(139, 92, 246, 0.1);
+  }
+
+  details[open] summary::after {
+    content: '−';
+  }
+
+  .faq-content {
+    padding: 0 2rem 1.5rem;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mb-12 { margin-bottom: 3rem; text-align: center; }
+
+  @media (max-width: 768px) {
+    .faq-section { padding: 4rem 0; }
+  }
+
+  @media (max-width: 600px) {
+    summary { padding: 1.2rem 1rem; font-size: 1.1rem; }
+    summary::after { right: 1rem; }
+    .faq-content { padding: 0 1rem 1.2rem; }
+  }
+</style>

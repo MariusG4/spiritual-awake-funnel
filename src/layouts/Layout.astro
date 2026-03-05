@@ -1,0 +1,136 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Stop Unwanted Spiritual Intrusion Before It Escalates" } = Astro.props;
+
+// Read analytics IDs from environment variables if present
+const GTM_ID = import.meta.env.GTM_ID || 'GTM-XXXXXXX';
+const GA4_ID = import.meta.env.GA4_ID || 'G-XXXXXXXXXX';
+const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		
+		<!-- SEO Meta Tags -->
+		<meta name="description" content={description} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://whop.com/escapenazis" />
+		<!-- Can replace with actual OG image URL -->
+		<meta property="og:image" content="/og-image.jpg" />
+		<meta name="twitter:card" content="summary_large_image" />
+
+		<!-- Google Tag Manager / Analytics Initialization -->
+		{GTM_ID !== 'GTM-XXXXXXX' && (
+			<script type="text/partytown" define:vars={{ GTM_ID }}>
+				(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+				'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+				})(window,document,'script','dataLayer',GTM_ID);
+			</script>
+		)}
+
+		<!-- Meta Pixel Code -->
+		{META_PIXEL_ID !== 'XXXXXXXXXX' && (
+			<script type="text/partytown" define:vars={{ META_PIXEL_ID }}>
+				!function(f,b,e,v,n,t,s)
+				{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+				n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+				if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+				n.queue=[];t=b.createElement(e);t.async=!0;
+				t.src=v;s=b.getElementsByTagName(e)[0];
+				s.parentNode.insertBefore(t,s)}(window, document,'script',
+				'https://connect.facebook.net/en_US/fbevents.js');
+				fbq('init', META_PIXEL_ID);
+				fbq('track', 'PageView');
+			</script>
+		)}
+
+		<!-- Lottie Player JS -->
+		<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+	</head>
+	<body>
+		<!-- GTM No Script -->
+		{GTM_ID !== 'GTM-XXXXXXX' && (
+			<noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+			height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		)}
+		
+		<!-- Sticky Top Bar (Urgency) -->
+		<div class="sticky-bar">
+			<p>🔒 <strong>Limited Spots Available</strong> — Secure your access to the exclusive group today.</p>
+		</div>
+
+		<slot />
+
+		<script>
+			// Basic A/B Testing router
+			// Check if user has a variant assigned, if not assign 50/50
+			document.addEventListener('DOMContentLoaded', () => {
+				let variant = localStorage.getItem('ab_variant');
+				if (!variant) {
+					variant = Math.random() < 0.5 ? 'A' : 'B';
+					localStorage.setItem('ab_variant', variant);
+				}
+				
+				// Push to dataLayer for GA4 custom dimension
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push({
+					'event': 'ab_variant_assignment',
+					'ab_variant': variant
+				});
+
+				// Dispatch event so components can react
+				document.dispatchEvent(new CustomEvent('ab_variant_loaded', { detail: { variant } }));
+			});
+
+			// CTA Click Tracking
+			document.querySelectorAll('.btn-primary').forEach(button => {
+				button.addEventListener('click', () => {
+					window.dataLayer = window.dataLayer || [];
+					window.dataLayer.push({
+						'event': 'cta_click',
+						'button_text': button.textContent?.trim()
+					});
+
+					if (typeof fbq === 'function') {
+						fbq('track', 'InitiateCheckout');
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
+
+<style>
+	.sticky-bar {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background-color: var(--color-warning, #D35400);
+		color: #FFF;
+		text-align: center;
+		padding: 0.5rem 1rem;
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+	.sticky-bar p {
+		margin: 0;
+	}
+</style>

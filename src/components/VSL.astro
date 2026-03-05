@@ -1,0 +1,112 @@
+---
+const WHOP_LINK = "https://whop.com/escapenazis";
+---
+<section class="vsl-section">
+  <div class="container text-center">
+    <h2 class="mb-4">Watch This Short Video Before You Proceed...</h2>
+    <p class="mb-8" style="color: var(--text-muted); max-width: 700px; margin: 0 auto 3rem;">
+      Discover exactly how energy vampires and negative entities attach themselves to you, and the simple framework we use to detach them permanently.
+    </p>
+
+    <div class="video-container glass-panel">
+      <!-- VSL Placeholder Image with Play Button -->
+      <!-- In production, drop a YouTube or Vimeo iframe here -->
+      <div class="vsl-placeholder">
+        <div class="play-button">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
+        <div class="vsl-text">Click to Play Video</div>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <a href={WHOP_LINK} class="btn-primary">
+        Yes, I'm Ready To Protect Myself
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .vsl-section {
+    padding: 6rem 0;
+    background: rgba(15, 23, 42, 0.3); /* Subtle backdrop */
+  }
+
+  h2 {
+    font-size: 2.5rem;
+  }
+
+  .video-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem; /* Thin border/glass effect */
+    border-radius: 20px;
+  }
+
+  .vsl-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(45deg, #1e1b4b, #4c1d95, #000);
+    background-size: 200% 200%;
+    animation: gradientShift 10s ease infinite;
+  }
+
+  .play-button {
+    width: 80px;
+    height: 80px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+    transition: transform 0.3s ease;
+    margin-bottom: 1rem;
+  }
+
+  .play-button svg {
+    width: 40px;
+    height: 40px;
+    color: white;
+    margin-left: 5px;
+  }
+
+  .vsl-placeholder:hover .play-button {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.9);
+  }
+
+  .vsl-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @media (max-width: 768px) {
+    .vsl-section { padding: 4rem 0; }
+    h2 { font-size: 2rem; }
+    .play-button { width: 60px; height: 60px; }
+    .play-button svg { width: 30px; height: 30px; }
+    .vsl-text { font-size: 1rem; }
+    .video-container { padding: 0.5rem; border-radius: 12px; }
+    .vsl-placeholder { border-radius: 8px; }
+  }
+</style>

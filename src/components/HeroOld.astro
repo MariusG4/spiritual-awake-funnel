@@ -1,0 +1,105 @@
+---
+const WHOP_LINK = "https://whop.com/escapenazis";
+---
+<section class="hero-section">
+  <!-- Glowing Background Orbs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  
+  <div class="container hero-container">
+    <div class="hero-content text-center">
+      <div class="badge glass-panel">🔥 High-Demand Course</div>
+      <h1 class="headline">Stop the <span class="text-gradient">Spiritual Stalking</span> Before it Drains You completely.</h1>
+      <p class="subheadline">The ultimate tactical guide to severing unwanted energetic connections, building absolute boundaries, and reclaiming your peace.</p>
+      
+      <div class="cta-wrapper">
+        <a href={WHOP_LINK} class="btn-primary">Secure Your Access Now</a>
+        <p class="guarantee"><span class="success-text">✓</span> Immediate Access • 🔒 Secure Payment</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    position: relative;
+    padding: 8rem 0 6rem;
+    overflow: hidden;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .blob {
+    position: absolute;
+    filter: blur(80px);
+    z-index: -1;
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: var(--primary); }
+  .blob-2 { bottom: -10%; right: -10%; width: 400px; height: 400px; background: var(--secondary); }
+
+  .hero-container {
+    position: relative;
+    z-index: 10;
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary);
+    margin-bottom: 2rem;
+    background: rgba(139, 92, 246, 0.1);
+    border-color: rgba(139, 92, 246, 0.3);
+  }
+
+  .headline {
+    font-size: 4.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+  }
+
+  .text-gradient {
+    background: linear-gradient(to right, var(--primary), #d8b4fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subheadline {
+    font-size: 1.35rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  .cta-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .success-text { color: var(--success); }
+  .guarantee { color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem; }
+
+  @media (max-width: 768px) {
+    .headline { font-size: 2.8rem; }
+    .subheadline { font-size: 1.15rem; }
+    .btn-primary { width: 100%; max-width: 400px; padding: 1rem; }
+  }
+</style>

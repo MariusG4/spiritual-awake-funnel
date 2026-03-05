@@ -1,0 +1,110 @@
+---
+const WHOP_LINK = "https://whop.com/escapenazis";
+---
+<section class="offer-section">
+  <div class="container">
+    <div class="offer-box glass-panel text-center">
+      <h2>Reclaim Your Autonomy</h2>
+      <p class="subtitle">Join the exclusive community and get instant access to the full protocol.</p>
+      
+      <div class="price-stack">
+        <span class="msrp">Normal Value: <s>$497</s></span>
+        <span class="sale-price">Today: $97</span>
+      </div>
+
+      <ul class="offer-list">
+        <li><span class="check">✓</span> Comprehensive PDF Guide</li>
+        <li><span class="check">✓</span> Audio Grounding Exercises</li>
+        <li><span class="check">✓</span> Lifetime Support Network</li>
+      </ul>
+
+      <a href={WHOP_LINK} class="btn-primary w-full pulse-btn">Join The Protocol Now</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .offer-section {
+    padding: 6rem 0;
+  }
+
+  .offer-box {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 4rem;
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    margin-bottom: 2rem;
+  }
+
+  .price-stack {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.5rem;
+    background: rgba(0,0,0,0.2);
+    padding: 2rem;
+    border-radius: 12px;
+  }
+
+  .msrp {
+    color: var(--text-muted);
+    font-size: 1.25rem;
+  }
+
+  .sale-price {
+    color: var(--primary);
+    font-size: 4rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    line-height: 1;
+    margin-top: 0.5rem;
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+  }
+
+  .offer-list {
+    list-style: none;
+    text-align: left;
+    margin: 0 auto 3rem;
+    max-width: 300px;
+  }
+
+  .offer-list li {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .check {
+    color: var(--success);
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+
+  .w-full { width: 100%; display: block; }
+
+  .pulse-btn {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(139, 92, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+  }
+
+  @media (max-width: 768px) {
+    .offer-box { padding: 2.5rem 1.5rem; }
+    .sale-price { font-size: 3rem; }
+  }
+</style>

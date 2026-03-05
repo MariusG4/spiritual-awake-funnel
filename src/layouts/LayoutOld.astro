@@ -1,0 +1,55 @@
+---
+import '../styles/global-old.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Secure your energetic boundary today." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		
+		<!-- Fonts: Original Inter & Outfit -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+		
+		<!-- Lottie Player JS -->
+		<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+	</head>
+	<body>
+		<!-- Sticky Top Bar (Urgency) -->
+		<div class="sticky-bar">
+			<p>🔒 <strong>Limited Spots Available</strong> — Secure your access to the exclusive group today.</p>
+		</div>
+
+		<slot />
+	</body>
+</html>
+
+<style>
+	.sticky-bar {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background: linear-gradient(90deg, var(--secondary), var(--primary));
+		color: white;
+		text-align: center;
+		padding: 0.75rem 1rem;
+		font-size: 0.9rem;
+		font-weight: 500;
+		box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+	}
+	.sticky-bar p {
+		margin: 0;
+	}
+</style>
