@@ -4,7 +4,7 @@ const WHOP_LINK = "https://whop.com/escapenazis";
 <section class="offer-section">
   <div class="container">
     <div class="offer-box glass-panel text-center">
-      <h2>Reclaim Your Autonomy</h2>
+      <h2>Secure Your Access Now</h2>
       <p class="subtitle">Join the exclusive community and get instant access to the full protocol.</p>
       
       <div class="price-stack">
@@ -13,12 +13,17 @@ const WHOP_LINK = "https://whop.com/escapenazis";
       </div>
 
       <ul class="offer-list">
-        <li><span class="check">✓</span> Comprehensive PDF Guide</li>
-        <li><span class="check">✓</span> Audio Grounding Exercises</li>
-        <li><span class="check">✓</span> Lifetime Support Network</li>
+        <li><span class="check">✓</span> Full "Surviving Spiritual Stalking" System</li>
+        <li><span class="check">✓</span> Private Community Access (Whop)</li>
+        <li><span class="check">✓</span> Weekly Live QA & Support</li>
+        <li><span class="check">✓</span> Bonus: Advanced Shielding Techniques</li>
       </ul>
 
-      <a href={WHOP_LINK} class="btn-primary w-full pulse-btn">Join The Protocol Now</a>
+      <a href={WHOP_LINK} class="btn-primary w-full pulse-btn">Join Now & Save</a>
+
+      <div class="secure-checkout">
+        <p>🔒 256-Bit SSL Secure Checkout on Whop</p>
+      </div>
     </div>
   </div>
 </section>
@@ -37,14 +42,14 @@ const WHOP_LINK = "https://whop.com/escapenazis";
   }
 
   h2 {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 5vw, 2.5rem);
     margin-bottom: 1rem;
     color: white;
   }
 
   .subtitle {
     color: var(--text-muted);
-    font-size: 1.15rem;
+    font-size: clamp(1.05rem, 3vw, 1.15rem);
     margin-bottom: 2rem;
   }
 
@@ -64,7 +69,7 @@ const WHOP_LINK = "https://whop.com/escapenazis";
 
   .sale-price {
     color: var(--primary);
-    font-size: 4rem;
+    font-size: clamp(3rem, 10vw, 4rem);
     font-weight: 800;
     font-family: 'Outfit', sans-serif;
     line-height: 1;
@@ -76,25 +81,34 @@ const WHOP_LINK = "https://whop.com/escapenazis";
     list-style: none;
     text-align: left;
     margin: 0 auto 3rem;
-    max-width: 300px;
+    max-width: 350px;
   }
 
   .offer-list li {
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 3vw, 1.1rem);
     margin-bottom: 1rem;
-    color: var(--text);
+    color: var(--text-main);
+    display: flex;
+    align-items: flex-start;
   }
 
   .check {
-    color: var(--success);
+    color: #10b981; /* Emerald green check */
     font-weight: bold;
-    margin-right: 0.5rem;
+    margin-right: 0.75rem;
   }
 
-  .w-full { width: 100%; display: block; }
+  .w-full { width: 100%; display: block; text-align: center; }
 
   .pulse-btn {
     animation: pulse 2s infinite;
+  }
+
+  .secure-checkout {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
   }
 
   @keyframes pulse {
@@ -105,6 +119,10 @@ const WHOP_LINK = "https://whop.com/escapenazis";
 
   @media (max-width: 768px) {
     .offer-box { padding: 2.5rem 1.5rem; }
-    .sale-price { font-size: 3rem; }
+    .offer-section { padding: 4rem 0; }
+  }
+
+  @media (max-width: 480px) {
+    .offer-box { padding: 2rem 1rem; }
   }
 </style>
