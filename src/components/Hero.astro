@@ -17,20 +17,20 @@ const WHOP_LINK = "https://whop.com/escapenazis";
 </header>
 
 <section class="bg-bg pt-12 pb-20 px-4 flex flex-col items-center text-center">
-  <div class="border border-border px-3 py-1 text-xs font-head tracking-widest text-primary uppercase mb-8 inline-block bg-surface">
-    Energetic Security Division
+  <div class="border border-border px-3 py-1 text-xs font-head tracking-widest text-primary uppercase mb-8 inline-block bg-surface flex items-center gap-2">
+    <span class="text-alert-orange text-lg">⚠️</span> URGENT: If You're Experiencing These Symptoms
   </div>
   
   <h1 id="hero-headline" class="text-5xl md:text-6xl font-head font-semibold text-primary uppercase leading-none tracking-tight mb-6">
-    Stop the Drain.
+    They're Using <br/> <span class="text-alert-orange">Spiritual Warfare</span> <br/> Against You
   </h1>
   
-  <p class="text-lg md:text-xl text-primary max-w-lg mb-10 leading-relaxed">
-    A clinical approach to ending spiritual harassment through tactical boundaries and energetic shielding.
+  <p class="text-lg md:text-xl text-primary max-w-2xl mb-10 leading-relaxed mx-auto">
+    If you've crossed paths with drug dealers, occultists, masons, or other dangerous people... and now you're experiencing intrusive thoughts, night sweats, and behavioral changes you can't explain—<strong class="text-alert-orange">you're not going crazy.</strong>
   </p>
   
-  <a href={WHOP_LINK} class="w-full max-w-sm btn-clinical mb-16 bg-primary text-surface hover:bg-opacity-90">
-    Start the Protocol
+  <a href={WHOP_LINK} class="w-full max-w-sm btn-clinical mb-16 bg-primary text-surface hover:bg-opacity-90 flex items-center justify-center gap-2">
+    GET INSTANT ACCESS NOW <span>→</span>
   </a>
 
   <!-- Placeholder Image mimicking the abstract tech network -->
@@ -44,47 +44,80 @@ const WHOP_LINK = "https://whop.com/escapenazis";
 <section class="bg-bg pb-20 px-4 flex flex-col items-center">
   <div class="flex items-center w-full max-w-3xl mb-10">
     <div class="flex-grow border-t border-border"></div>
-    <h2 class="px-4 text-xl font-head tracking-widest uppercase text-primary">Symptom Check</h2>
+    <h2 class="px-4 text-xl font-head tracking-widest uppercase text-alert-orange whitespace-nowrap">Are You Experiencing Any of These?</h2>
     <div class="flex-grow border-t border-border"></div>
   </div>
 
-  <div class="w-full max-w-md flex flex-col gap-4 mb-20">
+  <div class="w-full max-w-2xl grid md:grid-cols-2 gap-4 mb-20 px-4">
     <!-- Check 1 -->
     <div class="glass-panel flex gap-4 p-5 items-start">
-      <div class="w-6 h-6 rounded bg-accent flex items-center justify-center flex-shrink-0 mt-1">
+      <div class="w-6 h-6 rounded bg-alert-orange flex items-center justify-center flex-shrink-0 mt-1">
         <svg class="w-4 h-4 text-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       </div>
-      <div class="text-left">
-        <h3 class="font-head text-lg text-primary uppercase tracking-wide mb-1">Sudden Energy Drops</h3>
-        <p class="text-primary text-sm leading-relaxed">Unexplained fatigue occurring at consistent intervals without physical exertion.</p>
+      <div class="text-left py-1">
+        <p class="text-primary text-sm font-semibold leading-relaxed">Intrusive thoughts that won't leave (especially from media you've consumed)</p>
       </div>
     </div>
     
     <!-- Check 2 -->
     <div class="glass-panel flex gap-4 p-5 items-start">
-      <div class="w-6 h-6 rounded bg-accent flex items-center justify-center flex-shrink-0 mt-1">
+      <div class="w-6 h-6 rounded bg-alert-orange flex items-center justify-center flex-shrink-0 mt-1">
         <svg class="w-4 h-4 text-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       </div>
-      <div class="text-left">
-        <h3 class="font-head text-lg text-primary uppercase tracking-wide mb-1">3AM Waking</h3>
-        <p class="text-primary text-sm leading-relaxed">Systemic arousal during the "Thinning Hours" with immediate anxiety onset.</p>
+      <div class="text-left py-1">
+        <p class="text-primary text-sm font-semibold leading-relaxed">Excessive night sweats and disturbing dreams</p>
       </div>
     </div>
 
     <!-- Check 3 -->
     <div class="glass-panel flex gap-4 p-5 items-start">
-      <div class="w-6 h-6 rounded bg-accent flex items-center justify-center flex-shrink-0 mt-1">
+      <div class="w-6 h-6 rounded bg-alert-orange flex items-center justify-center flex-shrink-0 mt-1">
         <svg class="w-4 h-4 text-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       </div>
-      <div class="text-left">
-        <h3 class="font-head text-lg text-primary uppercase tracking-wide mb-1">Feeling Watched</h3>
-        <p class="text-primary text-sm leading-relaxed">Persistent sensation of non-physical observation in private or secure spaces.</p>
+      <div class="text-left py-1">
+        <p class="text-primary text-sm font-semibold leading-relaxed">Acting strangely—doing things that aren't like you</p>
+      </div>
+    </div>
+
+    <!-- Check 4 -->
+    <div class="glass-panel flex gap-4 p-5 items-start">
+      <div class="w-6 h-6 rounded bg-alert-orange flex items-center justify-center flex-shrink-0 mt-1">
+        <svg class="w-4 h-4 text-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <div class="text-left py-1">
+        <p class="text-primary text-sm font-semibold leading-relaxed">Waking at odd hours (especially 2-3 AM) repeatedly</p>
+      </div>
+    </div>
+
+    <!-- Check 5 -->
+    <div class="glass-panel flex gap-4 p-5 items-start">
+      <div class="w-6 h-6 rounded bg-alert-orange flex items-center justify-center flex-shrink-0 mt-1">
+        <svg class="w-4 h-4 text-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <div class="text-left py-1">
+        <p class="text-primary text-sm font-semibold leading-relaxed">Finding strange objects in your environment</p>
+      </div>
+    </div>
+
+    <!-- Check 6 -->
+    <div class="glass-panel flex gap-4 p-5 items-start">
+      <div class="w-6 h-6 rounded bg-alert-orange flex items-center justify-center flex-shrink-0 mt-1">
+        <svg class="w-4 h-4 text-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <div class="text-left py-1">
+        <p class="text-primary text-sm font-semibold leading-relaxed">People around you acting unusually interested in your life</p>
       </div>
     </div>
   </div>
@@ -98,10 +131,10 @@ const WHOP_LINK = "https://whop.com/escapenazis";
     </div>
     
     <h2 class="font-head text-3xl md:text-4xl text-primary uppercase leading-tight mt-6 mb-6 italic">
-      "You don't need sage. You need strategy."
+      "Here's the truth:"
     </h2>
     <p class="text-primary text-base md:text-lg mb-10 leading-relaxed max-w-lg mx-auto">
-      Move beyond mystical superstitions. Our protocol treats spiritual interference as a technical breach of your bio-energetic field. We use tactical isolation and structural reinforcement.
+      This stuff exists whether you believe in it or not. If you're rebellious, if you don't do what you're told, if you've threatened someone's agenda—<strong class="text-alert-orange">they will try to control you.</strong> And if you have no knowledge of the spiritual realm, you're defenseless.
     </p>
 
     <!-- Phases Grid -->
