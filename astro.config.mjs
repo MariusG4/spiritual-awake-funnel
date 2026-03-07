@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://your-funnel-domain.com',
+  site: 'https://spiritualshieldsystem.com',
   integrations: [sitemap()],
 
   vite: {

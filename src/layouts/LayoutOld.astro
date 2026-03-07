@@ -1,6 +1,8 @@
 ---
 import '../styles/global-old.css';
 
+import SEO from '../components/SEO.astro';
+
 interface Props {
 	title: string;
 	description?: string;
@@ -23,15 +25,7 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		
-		<!-- SEO Meta Tags -->
-		<meta name="description" content={description} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://whop.com/escapenazis/surviving-spiritual-stalking" />
-		<!-- Can replace with actual OG image URL -->
-		<meta property="og:image" content="/og-image.jpg" />
-		<meta name="twitter:card" content="summary_large_image" />
+		<SEO title={title} description={description} />
 
 		<!-- Google Tag Manager / Analytics Initialization -->
 		{GTM_ID !== 'GTM-XXXXXXX' && (

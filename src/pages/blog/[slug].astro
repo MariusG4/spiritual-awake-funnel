@@ -1,0 +1,146 @@
+---
+import LayoutOld from '../../layouts/LayoutOld.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<LayoutOld 
+  title={`${post.data.title} | Spiritual Shield System`}
+  description={post.data.description}
+>
+  <main class="container mt-12 mb-12 blog-post-container" style="min-height: 80vh;">
+    <article class="glass-panel blog-post-content">
+      <header class="mb-8">
+        <a href="/blog" class="back-link mb-6">
+          &larr; Back to Blog
+        </a>
+        
+        <h1 class="highlight-text mb-4" style="font-size: clamp(2rem, 5vw, 3rem);">
+          {post.data.title}
+        </h1>
+        
+        <div class="blog-meta mt-4">
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString('en-US', {
+               year: 'numeric',
+               month: 'long',
+               day: 'numeric',
+            })}
+          </time>
+          {post.data.author && <span> • {post.data.author}</span>}
+        </div>
+      </header>
+
+      {post.data.image && (
+        <div class="blog-hero-image mb-8">
+          <img 
+            src={post.data.image} 
+            alt={post.data.title}
+          />
+        </div>
+      )}
+
+      <div class="content">
+        <Content />
+      </div>
+    </article>
+  </main>
+</LayoutOld>
+
+<style is:global>
+  .blog-post-container {
+    max-width: 800px;
+  }
+  .blog-post-content {
+    padding: clamp(1.5rem, 5vw, 3rem);
+  }
+  .back-link {
+    display: inline-block;
+    color: var(--text-muted);
+    font-size: 1rem;
+    transition: color var(--transition-fast);
+  }
+  .back-link:hover {
+    color: var(--text-main);
+  }
+  .blog-meta {
+    color: var(--text-muted);
+    font-size: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 1.5rem;
+  }
+  .blog-hero-image {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.5);
+  }
+  .blog-hero-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    max-height: 400px;
+  }
+  
+  /* Markdown Content Styling specific to old design */
+  .content p { 
+    margin-bottom: 1.5rem; 
+    line-height: 1.8; 
+    color: var(--text-main);
+    font-size: 1.1rem;
+  }
+  .content h2 { 
+    margin-top: 3rem; 
+    margin-bottom: 1.5rem; 
+    font-size: 2rem; 
+    color: #fff; 
+  }
+  .content h3 { 
+    margin-top: 2rem; 
+    margin-bottom: 1rem; 
+    font-size: 1.5rem; 
+    color: #fff; 
+  }
+  .content ul, .content ol { 
+    margin-bottom: 1.5rem; 
+    padding-left: 1.5rem;
+    color: var(--text-main);
+    font-size: 1.1rem;
+  }
+  .content li { 
+    margin-bottom: 0.5rem; 
+  }
+  .content blockquote { 
+    border-left: 4px solid var(--primary); 
+    padding: 1rem 1.5rem; 
+    margin: 2rem 0; 
+    font-style: italic; 
+    color: var(--text-main); 
+    background: rgba(139, 92, 246, 0.05); 
+    border-radius: 0 12px 12px 0; 
+  }
+  .content a { 
+    color: var(--primary);
+    text-decoration: underline; 
+    text-decoration-color: rgba(139, 92, 246, 0.4); 
+    text-underline-offset: 4px; 
+  }
+  .content a:hover { 
+    color: var(--primary-hover);
+    text-decoration-color: var(--primary); 
+  }
+  .content img {
+    border-radius: 12px;
+    margin: 2rem 0;
+  }
+</style>

@@ -1,0 +1,181 @@
+---
+const { whopLink = "https://whop.com/escapenazis/surviving-spiritual-stalking" } = Astro.props;
+---
+<div id="lead-popup" class="popup-overlay" style="display: none;">
+  <div class="popup-content glass-panel" style="max-width: 450px;">
+    <button id="close-lead-popup" class="close-btn">&times;</button>
+    <h3 style="margin-bottom: 0.5rem; font-size: 1.8rem;">Let's Secure Your Access</h3>
+    <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 1rem;">
+      Enter your details below so we can send you your backup access link, then proceed to the secure checkout.
+    </p>
+
+    <form id="lead-capture-form" class="lead-form">
+      <div class="form-group">
+        <label for="lead-name">First Name</label>
+        <input type="text" id="lead-name" name="name" required placeholder="e.g. John" aria-label="First Name" />
+      </div>
+      
+      <div class="form-group">
+        <label for="lead-email">Email Address</label>
+        <input type="email" id="lead-email" name="email" required placeholder="e.g. john@example.com" aria-label="Email Address" />
+      </div>
+
+      <button type="submit" class="btn-primary w-full mt-4" style="margin-top: 1.5rem; width: 100%;">
+        Continue to Checkout &rarr;
+      </button>
+      <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+        You will be redirected to the secure Whop checkout page instantly.
+      </p>
+    </form>
+  </div>
+</div>
+
+<script define:vars={{ whopLink }}>
+document.addEventListener("DOMContentLoaded", () => {
+  const leadPopup = document.getElementById("lead-popup");
+  const closeBtn = document.getElementById("close-lead-popup");
+  const form = document.getElementById("lead-capture-form");
+
+  // Intercept all whop links on the page
+  const allWhopLinks = document.querySelectorAll('a[href*="whop.com"]');
+  
+  allWhopLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      // Allow if they are already bypassing (e.g., inside the exit popup)
+      // Actually we want all of them to trigger the lead capture!
+      e.preventDefault();
+      leadPopup.style.display = "flex";
+      // We can optionally store the specific href here if needed, but we default to imported one.
+      leadPopup.dataset.targetUrl = link.href || whopLink;
+    });
+  });
+
+  // Close logic
+  closeBtn?.addEventListener("click", () => {
+    leadPopup.style.display = "none";
+  });
+
+  leadPopup?.addEventListener("click", (e) => {
+    if (e.target === leadPopup) {
+      leadPopup.style.display = "none";
+    }
+  });
+
+  // Form Submission Logic
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email')
+    };
+
+    // --- INTEGRATION POINT ---
+    // In the future (e.g. Mailchimp, ConvertKit, Formspree), 
+    // you will make a fetch request here:
+    /*
+    try {
+      await fetch('YOUR_WEBHOOK_OR_API_URL_HERE', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (e) { console.error("Email submission failed", e); }
+    */
+    
+    const targetUrl = leadPopup.dataset.targetUrl || whopLink;
+    
+    // Add parameters to the URL so that Whop can optionally receive them
+    const redirectUrl = new URL(targetUrl);
+    redirectUrl.searchParams.append('email', data.email);
+    
+    // Redirect User
+    window.location.href = redirectUrl.toString();
+  });
+});
+</script>
+
+<style>
+  .lead-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+
+  .form-group input {
+    padding: 0.9rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color var(--transition-fast);
+  }
+
+  .form-group input:focus {
+    border-color: var(--primary);
+  }
+  
+  .form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Popup Overlay Styles (needed because Astro scopes styles from index.astro) */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .popup-content {
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    padding: 3rem 2rem;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+  }
+
+  .close-btn:hover {
+    color: white;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>

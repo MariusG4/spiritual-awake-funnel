@@ -6,6 +6,7 @@ import BenefitsOld from '../components/BenefitsOld.astro';
 import TestimonialsOld from '../components/TestimonialsOld.astro';
 import FAQOld from '../components/FAQOld.astro';
 import OfferBoxOld from '../components/OfferBoxOld.astro';
+import LeadPopupOld from '../components/LeadPopupOld.astro';
 
 const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 ---
@@ -39,6 +40,9 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 				</a>
 			</div>
 		</div>
+
+		<!-- New Lead Capture Overlay -->
+		<LeadPopupOld whopLink={WHOP_LINK} />
 	</main>
 
 	<!-- Exit Popup Script -->

@@ -1,0 +1,106 @@
+---
+import LayoutOld from '../../layouts/LayoutOld.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const title = "Blog | Spiritual Shield System";
+const description = "Read the latest articles on spiritual hygiene and protection.";
+---
+
+<LayoutOld title={title} description={description}>
+  <main class="container mt-12 mb-12" style="min-height: 80vh;">
+    <header class="text-center mb-12">
+      <h1 class="highlight-text mb-4">Our Blog</h1>
+      <p style="color: var(--text-muted); font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
+        Insights, practices, and guides on maintaining a strong spiritual shield.
+      </p>
+    </header>
+
+    <div class="blog-grid">
+      {posts.map((post) => (
+        <article class="glass-panel blog-card">
+          <a href={`/blog/${post.slug}`}>
+            {post.data.image && (
+              <div class="blog-image-wrapper mb-4">
+                <img 
+                  src={post.data.image} 
+                  alt={post.data.title}
+                  class="blog-image"
+                />
+              </div>
+            )}
+            <div class="blog-meta mb-2">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+              {post.data.author && <span> • {post.data.author}</span>}
+            </div>
+            <h2 class="blog-title mb-2">{post.data.title}</h2>
+            <p class="blog-excerpt">
+              {post.data.description}
+            </p>
+          </a>
+        </article>
+      ))}
+    </div>
+  </main>
+</LayoutOld>
+
+<style>
+  .blog-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  .blog-card {
+    padding: 1.5rem;
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+    border: 1px solid var(--glass-border);
+  }
+  .blog-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(139, 92, 246, 0.4);
+    box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);
+  }
+  .blog-image-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.5);
+  }
+  .blog-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .blog-card:hover .blog-image {
+    transform: scale(1.05);
+  }
+  .blog-meta {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .blog-title {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    transition: color var(--transition-fast);
+  }
+  .blog-card:hover .blog-title {
+    color: var(--primary);
+  }
+  .blog-excerpt {
+    color: var(--text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
