@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 ---
 <section class="hero-section">
@@ -39,13 +40,7 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
     </div>
     
     <div class="hero-image glass-panel">
-      <!-- We use a subtle CSS art/placeholder for the PDF guide since we don't have a 3D book mockup image here -->
-      <div class="mockup-book">
-        <div class="book-cover">
-          <h2>Surviving Spiritual Stalking</h2>
-          <div class="book-spine"></div>
-        </div>
-      </div>
+      <Image src="/img/3d-book-mockup.png" alt="Surviving Spiritual Stalking 3D Book Mockup" width={600} height={800} class="mockup-image" />
     </div>
   </div>
 </section>
@@ -168,49 +163,13 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
     box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(139, 92, 246, 0.2);
   }
 
-  .mockup-book {
-    width: 260px;
-    height: 380px;
-    perspective: 1000px;
-    transform: rotateY(-15deg) rotateX(5deg);
-    transform-style: preserve-3d;
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .book-cover {
+  .mockup-image {
     width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom right, #000000, #1e1b4b);
-    border: 2px solid #a78bfa;
-    border-radius: 4px 12px 12px 4px;
-    position: relative;
-    box-shadow: inset 4px 0 10px rgba(0,0,0,0.5), 15px 15px 30px rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    text-align: center;
-  }
-
-  .book-cover h2 {
-    font-size: 2rem;
-    color: #e2e8f0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 10px rgba(139, 92, 246, 0.8);
-  }
-
-  .book-spine {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 20px;
-    background: #000;
-    transform: rotateY(-90deg);
-    transform-origin: left;
-    border-radius: 4px 0 0 4px;
-    box-shadow: inset -2px 0 5px rgba(255,255,255,0.2);
+    max-width: 320px;
+    height: auto;
+    object-fit: contain;
+    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.4));
   }
 
   @keyframes float {
@@ -233,10 +192,8 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
     .avatars { justify-content: center; }
     .social-proof { flex-direction: column; gap: 0.5rem; }
     
-    .mockup-book {
-      transform: rotateY(0deg) rotateX(0deg); /* Flatten on mobile for better fit */
-      width: 200px; /* Scale down */
-      height: 292px;
+    .mockup-image {
+      max-width: 240px;
     }
     .hero-image { min-height: 350px; }
   }
