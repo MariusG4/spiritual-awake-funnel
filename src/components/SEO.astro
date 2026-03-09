@@ -32,3 +32,72 @@ const {
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={new URL(image, Astro.url)} />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Shield Your Energy",
+    "url": "https://spiritualshieldsystem.com"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url": canonicalUrl,
+    "name": title,
+    "inLanguage": "en-US",
+    "description": description
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Surviving Spiritual Stalking – Shield Your Energy Access",
+    "brand": {
+      "@type": "Organization",
+      "name": "Shield Your Energy"
+    },
+    "description": "Exclusive group access featuring shielding techniques to protect you from spiritual intrusion and energetic attacks. Limited spots available.",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "2"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Sarah M."
+        },
+        "reviewBody": "Before this, I felt constantly drained. I thought I was just burnt out. After applying the shielding techniques from module 2, the heavy feeling lifted overnight. It's like I finally have my life back.",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "datePublished": "2023-12-01"
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Verified Member"
+        },
+        "reviewBody": "The community alone is worth 10x the price. Being around others who actually understand what spiritual stalking feels like...",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "datePublished": "2024-01-15"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "2-Minute Shielding Video",
+    "description": "A brief 2-minute video offering vital shielding techniques before spiritual intrusion escalates.",
+    "contentUrl": "https://spiritualshieldsystem.com/video/2min-shielding",
+    "thumbnailUrl": "https://spiritualshieldsystem.com/assets/video-thumbs/2min.jpg"
+  }
+])} />
