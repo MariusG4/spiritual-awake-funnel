@@ -41,6 +41,19 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 			</script>
 		)}
 
+		<!-- Google Analytics (gtag.js) -->
+		{GA4_ID !== 'G-XXXXXXXXXX' && (
+			<>
+				<script type="text/partytown" async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}></script>
+				<script type="text/partytown" define:vars={{ GA4_ID }}>
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+					gtag('config', GA4_ID);
+				</script>
+			</>
+		)}
+
 		<!-- Meta Pixel Code -->
 		{META_PIXEL_ID !== 'XXXXXXXXXX' && (
 			<script type="text/partytown" define:vars={{ META_PIXEL_ID }}>
