@@ -4,11 +4,19 @@ import '../styles/global-old.css';
 import SEO from '../components/SEO.astro';
 
 interface Props {
-	title: string;
-	description?: string;
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  canonicalUrl?: string;
+  author?: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  tags?: string[];
+  faq?: any[];
 }
 
-const { title, description = "Stop Unwanted Spiritual Intrusion Before It Escalates" } = Astro.props;
+const { title, description = "Stop Unwanted Spiritual Intrusion Before It Escalates", ...seoProps } = Astro.props;
 
 // Read analytics IDs from environment variables if present
 const GTM_ID = import.meta.env.GTM_ID || 'GTM-XXXXXXX';
@@ -28,7 +36,8 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		
-		<SEO title={title} description={description} />
+		<SEO title={title} description={description} {...seoProps} />
+		<slot name="head" />
 
 		<!-- Google Tag Manager / Analytics Initialization -->
 		{GTM_ID !== 'GTM-XXXXXXX' && (

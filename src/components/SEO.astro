@@ -1,55 +1,127 @@
 ---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
 interface Props {
-	title: string;
-	description?: string;
-	image?: string;
-	canonicalUrl?: string;
-	type?: 'website' | 'article';
+  title: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+  type?: 'website' | 'article';
+  // Article-specific
+  author?: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  tags?: string[];
+  faq?: FaqItem[];
 }
 
 const {
-	title,
-	description = "Stop Unwanted Spiritual Intrusion Before It Escalates",
-	image = "/og-image.jpg",
-	canonicalUrl = Astro.url.href, // Automatically use current URL if not provided
-	type = 'website',
+  title,
+  description = "Stop Unwanted Spiritual Intrusion Before It Escalates",
+  image = "/og-image.jpg",
+  canonicalUrl = Astro.url.href,
+  type = 'website',
+  author,
+  pubDate,
+  updatedDate,
+  tags = [],
+  faq = [],
 } = Astro.props;
----
 
-<!-- SEO Meta Tags -->
-<meta name="description" content={description} />
-<link rel="canonical" href={canonicalUrl} />
+const isArticle = type === 'article';
+const absImage = new URL(image, Astro.url).toString();
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content={type} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:url" content={canonicalUrl} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={new URL(image, Astro.url)} />
-
-<!-- JSON-LD Structured Data -->
-<script type="application/ld+json" set:html={JSON.stringify([
+// --- JSON-LD schemas ---
+const schemas: object[] = [
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Shield Your Energy",
     "url": "https://spiritualshieldsystem.com"
   },
-  {
+];
+
+// Article/BlogPosting schema
+if (isArticle) {
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "description": description,
+    "image": absImage,
+    "url": canonicalUrl,
+    "inLanguage": "en-US",
+    "author": {
+      "@type": "Person",
+      "name": author || "Spiritual Shield System"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Shield Your Energy",
+      "url": "https://spiritualshieldsystem.com"
+    },
+    ...(pubDate && { "datePublished": pubDate.toISOString() }),
+    ...(updatedDate && { "dateModified": updatedDate.toISOString() }),
+    ...(tags.length > 0 && { "keywords": tags.join(", ") }),
+  });
+
+  // BreadcrumbList
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": new URL("/", Astro.url).toString()
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": new URL("/blog", Astro.url).toString()
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": title,
+        "item": canonicalUrl
+      }
+    ]
+  });
+
+  // FAQPage schema
+  if (faq.length > 0) {
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faq.map(item => ({
+        "@type": "Question",
+        "name": item.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.answer
+        }
+      }))
+    });
+  }
+} else {
+  // Generic WebPage
+  schemas.push({
     "@context": "https://schema.org",
     "@type": "WebPage",
     "url": canonicalUrl,
     "name": title,
     "inLanguage": "en-US",
     "description": description
-  },
-  {
+  });
+
+  // Product schema (for landing pages only)
+  schemas.push({
     "@context": "https://schema.org",
     "@type": "Product",
     "name": "Surviving Spiritual Stalking – Shield Your Energy Access",
@@ -66,38 +138,55 @@ const {
     "review": [
       {
         "@type": "Review",
-        "author": {
-          "@type": "Person",
-          "name": "Sarah M."
-        },
+        "author": { "@type": "Person", "name": "Sarah M." },
         "reviewBody": "Before this, I felt constantly drained. I thought I was just burnt out. After applying the shielding techniques from module 2, the heavy feeling lifted overnight. It's like I finally have my life back.",
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5"
-        },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5" },
         "datePublished": "2023-12-01"
       },
       {
         "@type": "Review",
-        "author": {
-          "@type": "Person",
-          "name": "Verified Member"
-        },
+        "author": { "@type": "Person", "name": "Verified Member" },
         "reviewBody": "The community alone is worth 10x the price. Being around others who actually understand what spiritual stalking feels like...",
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5"
-        },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5" },
         "datePublished": "2024-01-15"
       }
     ]
-  },
-  {
+  });
+
+  schemas.push({
     "@context": "https://schema.org",
     "@type": "VideoObject",
     "name": "2-Minute Shielding Video",
     "description": "A brief 2-minute video offering vital shielding techniques before spiritual intrusion escalates.",
     "contentUrl": "https://spiritualshieldsystem.com/video/2min-shielding",
     "thumbnailUrl": "https://spiritualshieldsystem.com/assets/video-thumbs/2min.jpg"
-  }
-])} />
+  });
+}
+---
+
+<!-- SEO Meta Tags -->
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+{tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={absImage} />
+
+<!-- Article-specific Open Graph tags -->
+{isArticle && author && <meta property="article:author" content={author} />}
+{isArticle && pubDate && <meta property="article:published_time" content={pubDate.toISOString()} />}
+{isArticle && updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
+{isArticle && tags.map(tag => <meta property="article:tag" content={tag} />)}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absImage} />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(schemas)} />

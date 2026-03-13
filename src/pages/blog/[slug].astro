@@ -12,73 +12,301 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+
+// --- Reading Time ---
+const words = post.body.trim().split(/\s+/).length;
+const readingTime = Math.max(1, Math.round(words / 200));
+
+// --- Table of Contents from markdown headings ---
+interface TocItem {
+  level: number;
+  text: string;
+  slug: string;
+}
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+const tocItems: TocItem[] = [];
+const headingRegex = /^(#{2,3})\s+(.+)$/gm;
+let match;
+while ((match = headingRegex.exec(post.body)) !== null) {
+  tocItems.push({
+    level: match[1].length,
+    text: match[2].replace(/\*\*/g, '').replace(/`/g, ''),
+    slug: slugify(match[2].replace(/\*\*/g, '').replace(/`/g, '')),
+  });
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  author,
+  image,
+  tags = [],
+  keyTakeaways = [],
+  faq = [],
+} = post.data;
+
+const canonicalUrl = Astro.url.href;
+const ogImage = image || '/og-image.jpg';
 ---
 
-<LayoutOld 
-  title={`${post.data.title} | Spiritual Shield System`}
-  description={post.data.description}
+<LayoutOld
+  title={`${title} | Spiritual Shield System`}
+  description={description}
+  type="article"
+  author={author}
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  tags={tags}
+  faq={faq}
+  image={ogImage}
 >
-  <main class="container mt-12 mb-12 blog-post-container" style="min-height: 80vh;">
-    <article class="glass-panel blog-post-content">
-      <header class="mb-8">
-        <a href="/blog" class="back-link mb-6">
-          &larr; Back to Blog
-        </a>
-        
-        <h1 class="highlight-text mb-4" style="font-size: clamp(2rem, 5vw, 3rem);">
-          {post.data.title}
-        </h1>
-        
-        <div class="blog-meta mt-4">
-          <time datetime={post.data.pubDate.toISOString()}>
-            {post.data.pubDate.toLocaleDateString('en-US', {
-               year: 'numeric',
-               month: 'long',
-               day: 'numeric',
-            })}
-          </time>
-          {post.data.author && <span> • {post.data.author}</span>}
-        </div>
-      </header>
+  <main class="container blog-post-container mt-12 mb-12" style="min-height: 80vh;">
 
-      {post.data.image && (
-        <div class="blog-hero-image mb-8">
-          <img 
-            src={post.data.image} 
-            alt={post.data.title}
-          />
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb mb-6" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li aria-hidden="true" class="sep">›</li>
+        <li><a href="/blog">Blog</a></li>
+        <li aria-hidden="true" class="sep">›</li>
+        <li aria-current="page">{title}</li>
+      </ol>
+    </nav>
+
+    <div class="blog-layout">
+
+      <!-- Main Article -->
+      <article class="glass-panel blog-post-content">
+        <header class="mb-8">
+          <h1 class="highlight-text mb-4" style="font-size: clamp(1.8rem, 5vw, 2.8rem);">
+            {title}
+          </h1>
+
+          <div class="blog-meta mt-4">
+            <time datetime={pubDate.toISOString()}>
+              {pubDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </time>
+            {updatedDate && (
+              <span class="updated-date"> · Updated {updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            )}
+            {author && <span> · {author}</span>}
+            <span class="reading-time">· {readingTime} min read</span>
+          </div>
+
+          {tags.length > 0 && (
+            <div class="tag-list mt-3">
+              {tags.map(tag => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )}
+        </header>
+
+        {image && (
+          <div class="blog-hero-image mb-8">
+            <img
+              src={image}
+              alt={title}
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        )}
+
+        <!-- Mobile ToC (collapsible) -->
+        {tocItems.length > 0 && (
+          <details class="toc-mobile mb-6">
+            <summary>📋 Table of Contents</summary>
+            <nav aria-label="Table of contents">
+              <ol class="toc-list">
+                {tocItems.map(item => (
+                  <li class={`toc-item toc-h${item.level}`}>
+                    <a href={`#${item.slug}`}>{item.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          </details>
+        )}
+
+        <!-- Key Takeaways -->
+        {keyTakeaways.length > 0 && (
+          <div class="key-takeaways mb-8">
+            <h2 class="kt-title">⚡ Key Takeaways</h2>
+            <ul>
+              {keyTakeaways.map(point => <li>{point}</li>)}
+            </ul>
+          </div>
+        )}
+
+        <!-- Article body -->
+        <div class="content">
+          <Content />
         </div>
+
+        <!-- FAQ Section -->
+        {faq.length > 0 && (
+          <section class="faq-section mt-12" aria-labelledby="faq-heading">
+            <h2 id="faq-heading" class="faq-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+              {faq.map((item, i) => (
+                <details class="faq-item" id={`faq-${slugify(item.question)}`}>
+                  <summary class="faq-question">{item.question}</summary>
+                  <p class="faq-answer">{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Footer meta -->
+        <footer class="post-footer mt-12 pt-6">
+          <a href="/blog" class="back-link">← Back to Blog</a>
+          {tags.length > 0 && (
+            <div class="tag-list mt-4">
+              {tags.map(tag => <span class="tag">{tag}</span>)}
+            </div>
+          )}
+        </footer>
+      </article>
+
+      <!-- Desktop ToC Sidebar -->
+      {tocItems.length > 0 && (
+        <aside class="toc-sidebar" aria-label="Table of contents">
+          <div class="toc-sticky glass-panel">
+            <p class="toc-heading">On this page</p>
+            <nav>
+              <ol class="toc-list">
+                {tocItems.map(item => (
+                  <li class={`toc-item toc-h${item.level}`}>
+                    <a href={`#${item.slug}`} class="toc-link">{item.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          </div>
+        </aside>
       )}
 
-      <div class="content">
-        <Content />
-      </div>
-    </article>
+    </div>
   </main>
 </LayoutOld>
 
-<style is:global>
-  .blog-post-container {
-    max-width: 800px;
+<!-- ToC active-link highlight on scroll -->
+<script>
+  const tocLinks = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
+  const headings = document.querySelectorAll<HTMLElement>('.content h2, .content h3');
+
+  function onScroll() {
+    let current = '';
+    headings.forEach(h => {
+      if (window.scrollY >= h.offsetTop - 120) current = h.id;
+    });
+    tocLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+    });
   }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<style is:global>
+  /* ─── Layout ─── */
+  .blog-post-container {
+    max-width: 1100px;
+  }
+  .blog-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .blog-layout {
+      grid-template-columns: 1fr 260px;
+    }
+  }
+
+  /* ─── Article Panel ─── */
   .blog-post-content {
     padding: clamp(1.5rem, 5vw, 3rem);
+    min-width: 0;
   }
-  .back-link {
-    display: inline-block;
+
+  /* ─── Breadcrumbs ─── */
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.875rem;
     color: var(--text-muted);
-    font-size: 1rem;
+  }
+  .breadcrumb a {
+    color: var(--text-muted);
+    text-decoration: none;
     transition: color var(--transition-fast);
   }
-  .back-link:hover {
+  .breadcrumb a:hover { color: var(--primary); }
+  .breadcrumb .sep { user-select: none; }
+  .breadcrumb [aria-current="page"] {
     color: var(--text-main);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
   }
+
+  /* ─── Meta row ─── */
   .blog-meta {
     color: var(--text-muted);
-    font-size: 1rem;
+    font-size: 0.95rem;
     border-bottom: 1px solid var(--glass-border);
     padding-bottom: 1.5rem;
   }
+  .reading-time {
+    color: var(--primary);
+    font-weight: 500;
+  }
+  .updated-date { font-style: italic; }
+
+  /* ─── Tags ─── */
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tag {
+    background: rgba(139, 92, 246, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    color: #c4b5fd;
+    border-radius: 999px;
+    padding: 0.2rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  /* ─── Hero image ─── */
   .blog-hero-image {
     width: 100%;
     border-radius: 16px;
@@ -89,58 +317,221 @@ const { Content } = await post.render();
     width: 100%;
     height: auto;
     object-fit: cover;
-    max-height: 400px;
+    max-height: 420px;
   }
-  
-  /* Markdown Content Styling specific to old design */
-  .content p { 
-    margin-bottom: 1.5rem; 
-    line-height: 1.8; 
+
+  /* ─── Key Takeaways ─── */
+  .key-takeaways {
+    border: 1px solid rgba(139, 92, 246, 0.5);
+    border-radius: 16px;
+    background: rgba(139, 92, 246, 0.08);
+    padding: 1.5rem 2rem;
+  }
+  .kt-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #c4b5fd;
+    margin: 0 0 1rem;
+  }
+  .key-takeaways ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: var(--text-main);
+  }
+  .key-takeaways li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+
+  /* ─── Mobile ToC ─── */
+  .toc-mobile {
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    background: rgba(255,255,255,0.03);
+  }
+  @media (min-width: 1024px) {
+    .toc-mobile { display: none; }
+  }
+  .toc-mobile summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-main);
+    list-style: none;
+    user-select: none;
+  }
+  .toc-mobile summary::-webkit-details-marker { display: none; }
+
+  /* ─── Desktop ToC Sidebar ─── */
+  .toc-sidebar {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .toc-sidebar {
+      display: block;
+    }
+  }
+  .toc-sticky {
+    position: sticky;
+    top: 80px;
+    padding: 1.25rem 1.5rem;
+    border-radius: 16px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+  .toc-heading {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 0.75rem;
+  }
+
+  /* ─── ToC list shared ─── */
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+  .toc-item a, .toc-link {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .toc-item a:hover, .toc-link:hover {
+    color: var(--text-main);
+    background: rgba(139,92,246,0.08);
+    border-left-color: var(--primary);
+  }
+  .toc-link.active {
+    color: #c4b5fd;
+    background: rgba(139,92,246,0.12);
+    border-left-color: var(--primary);
+    font-weight: 600;
+  }
+  .toc-h3 a, .toc-h3.toc-link {
+    padding-left: 1.25rem;
+    font-size: 0.82rem;
+  }
+
+  /* ─── Markdown Content ─── */
+  .content p {
+    margin-bottom: 1.5rem;
+    line-height: 1.85;
     color: var(--text-main);
     font-size: 1.1rem;
   }
-  .content h2 { 
-    margin-top: 3rem; 
-    margin-bottom: 1.5rem; 
-    font-size: 2rem; 
-    color: #fff; 
+  .content h2 {
+    margin-top: 3rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.8rem;
+    color: #fff;
+    scroll-margin-top: 100px;
   }
-  .content h3 { 
-    margin-top: 2rem; 
-    margin-bottom: 1rem; 
-    font-size: 1.5rem; 
-    color: #fff; 
+  .content h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.85rem;
+    font-size: 1.35rem;
+    color: #e2d9f3;
+    scroll-margin-top: 100px;
   }
-  .content ul, .content ol { 
-    margin-bottom: 1.5rem; 
+  .content ul, .content ol {
+    margin-bottom: 1.5rem;
     padding-left: 1.5rem;
     color: var(--text-main);
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
-  .content li { 
-    margin-bottom: 0.5rem; 
-  }
-  .content blockquote { 
-    border-left: 4px solid var(--primary); 
-    padding: 1rem 1.5rem; 
-    margin: 2rem 0; 
-    font-style: italic; 
-    color: var(--text-main); 
-    background: rgba(139, 92, 246, 0.05); 
-    border-radius: 0 12px 12px 0; 
-  }
-  .content a { 
-    color: var(--primary);
-    text-decoration: underline; 
-    text-decoration-color: rgba(139, 92, 246, 0.4); 
-    text-underline-offset: 4px; 
-  }
-  .content a:hover { 
-    color: var(--primary-hover);
-    text-decoration-color: var(--primary); 
-  }
-  .content img {
-    border-radius: 12px;
+  .content li { margin-bottom: 0.5rem; }
+  .content blockquote {
+    border-left: 4px solid var(--primary);
+    padding: 1rem 1.5rem;
     margin: 2rem 0;
+    font-style: italic;
+    color: var(--text-main);
+    background: rgba(139, 92, 246, 0.06);
+    border-radius: 0 12px 12px 0;
   }
+  .content a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-color: rgba(139, 92, 246, 0.4);
+    text-underline-offset: 4px;
+  }
+  .content a:hover {
+    color: var(--primary-hover);
+    text-decoration-color: var(--primary);
+  }
+  .content img { border-radius: 12px; margin: 2rem 0; }
+
+  /* ─── FAQ Section ─── */
+  .faq-section { border-top: 1px solid var(--glass-border); padding-top: 2rem; }
+  .faq-title {
+    font-size: 1.6rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+  }
+  .faq-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  .faq-item {
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.02);
+    transition: border-color 0.2s;
+  }
+  .faq-item[open] { border-color: rgba(139,92,246,0.4); }
+  .faq-question {
+    cursor: pointer;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    list-style: none;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after {
+    content: '+';
+    font-size: 1.25rem;
+    color: var(--primary);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+  .faq-item[open] .faq-question::after { transform: rotate(45deg); }
+  .faq-answer {
+    padding: 0.75rem 1.25rem 1.25rem;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.97rem;
+    line-height: 1.75;
+    border-top: 1px solid var(--glass-border);
+  }
+
+  /* ─── Post footer ─── */
+  .post-footer {
+    border-top: 1px solid var(--glass-border);
+  }
+  .back-link {
+    display: inline-block;
+    color: var(--text-muted);
+    font-size: 1rem;
+    transition: color var(--transition-fast);
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--text-main); }
 </style>
