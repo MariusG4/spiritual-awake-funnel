@@ -2,7 +2,8 @@
 import LayoutOld from '../../layouts/LayoutOld.astro';
 import { getCollection } from 'astro:content';
 
-const posts = await getCollection('blog');
+const allPosts = await getCollection('blog');
+const posts = allPosts.filter(post => post.data.pubDate <= new Date());
 posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const title = "Blog | Spiritual Shield System";

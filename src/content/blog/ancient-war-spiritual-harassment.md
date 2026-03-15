@@ -1,7 +1,7 @@
 ---
 title: "The Ancient War Nobody Warned You About: Spiritual Harassment & Hidden Knowledge"
 description: "Drawing from ancient scripture, historical spiritual warfare accounts, and lived experience — a deep-dive into recognizing and escaping spiritual harassment before it destroys you."
-pubDate: 2026-03-14
+pubDate: 2026-03-15
 author: "Spiritual Shield System"
 image: "/og-image.jpg"
 tags:
