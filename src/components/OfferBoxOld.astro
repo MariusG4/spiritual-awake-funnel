@@ -7,7 +7,11 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
       <h2>Get The Complete Survival Guide Now</h2>
       <p class="subtitle">Everything you need to recognize, escape, and protect yourself from spiritual harassment—delivered instantly.</p>
       
-      <div class="price-stack">
+      <div class="price-stack" style="position: relative;">
+        <!-- Scarcity Badge -->
+        <div id="scarcity-badge-old" class="scarcity-badge-old" style="position: absolute; top: -15px; right: -15px; background: #ea580c; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; transform: scale(0.95); opacity: 0; transition: all 0.5s;">
+          🔥 <span id="spots-text-old">Loading...</span>
+        </div>
         <span class="msrp">Normal Value: <s>$197</s></span>
         <span class="sale-price">Today: $27</span>
       </div>
@@ -126,3 +130,36 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
     .offer-box { padding: 2rem 1rem; }
   }
 </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    try {
+      const { supabase } = await import("../lib/supabase");
+      const { data, error } = await supabase
+        .from('scarcity')
+        .select('spots_remaining, total_spots')
+        .single();
+        
+      if (error) throw error;
+      
+      const badge = document.getElementById("scarcity-badge-old");
+      const text = document.getElementById("spots-text-old");
+      
+      if (text && badge) {
+        text.innerText = `Only ${data.spots_remaining} Spots Left!`;
+        badge.style.transform = "scale(1)";
+        badge.style.opacity = "1";
+        
+        // Add a little shake animation to draw attention
+        setTimeout(() => {
+          badge.classList.add("pulse-btn");
+        }, 500);
+      }
+    } catch(err) {
+      console.error("OfferBoxOld Scarcity Error:", err);
+      // Hide badge gracefully if fetch fails
+      const badge = document.getElementById("scarcity-badge-old");
+      if(badge) badge.style.display = 'none';
+    }
+  });
+</script>

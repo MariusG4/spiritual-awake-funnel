@@ -5,6 +5,9 @@ const { whopLink = "https://whop.com/escapenazis/surviving-spiritual-stalking" }
   <div class="popup-content glass-panel" style="max-width: 450px;">
     <button id="close-lead-popup" class="close-btn">&times;</button>
     <h3 style="margin-bottom: 0.5rem; font-size: 1.8rem;">Let's Secure Your Access</h3>
+    <div id="scarcity-badge-popup" style="background: rgba(234, 88, 12, 0.2); border: 1px solid #ea580c; color: #ea580c; padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; opacity: 0; transform: scale(0.95); transition: all 0.3s;">
+      <span class="pulse-icon">🔥</span> <span id="spots-text-popup">Loading spots...</span>
+    </div>
     <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 1rem;">
       Enter your details below so we can send you your backup access link, then proceed to the secure checkout.
     </p>
@@ -41,11 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
   allWhopLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-      // Allow if they are already bypassing (e.g., inside the exit popup)
-      // Actually we want all of them to trigger the lead capture!
       e.preventDefault();
       leadPopup.style.display = "flex";
-      // We can optionally store the specific href here if needed, but we default to imported one.
       leadPopup.dataset.targetUrl = link.href || whopLink;
     });
   });
@@ -61,6 +61,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Fetch scarcity on load
+  const fetchScarcity = async () => {
+    try {
+      const { supabase } = await import("../lib/supabase");
+      const { data, error } = await supabase
+        .from('scarcity')
+        .select('spots_remaining, total_spots')
+        .single();
+        
+      if (error) throw error;
+      
+      const badge = document.getElementById("scarcity-badge-popup");
+      const text = document.getElementById("spots-text-popup");
+      
+      if (text && badge) {
+        text.innerText = `Only ${data.spots_remaining} Spots Left!`;
+        badge.style.opacity = "1";
+        badge.style.transform = "scale(1)";
+      }
+    } catch (e) {
+      console.error("Scarcity fetch failed:", e);
+      const badge = document.getElementById("scarcity-badge-popup");
+      if(badge) badge.style.display = 'none';
+    }
+  };
+  fetchScarcity();
+
   // Form Submission Logic
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -72,25 +99,19 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // --- INTEGRATION POINT ---
-    // In the future (e.g. Mailchimp, ConvertKit, Formspree), 
-    // you will make a fetch request here:
-    /*
     try {
-      await fetch('YOUR_WEBHOOK_OR_API_URL_HERE', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+      const { supabase } = await import("../lib/supabase");
+      await supabase.from('leads').insert({
+        email: data.email,
+        name: data.name,
+        source: 'spiritual_stalking_funnel'
       });
-    } catch (e) { console.error("Email submission failed", e); }
-    */
+    } catch (e) { console.error("Email submission to Supabase failed", e); }
     
     const targetUrl = leadPopup.dataset.targetUrl || whopLink;
-    
-    // Add parameters to the URL so that Whop can optionally receive them
     const redirectUrl = new URL(targetUrl);
     redirectUrl.searchParams.append('email', data.email);
     
-    // Redirect User
     window.location.href = redirectUrl.toString();
   });
 });
@@ -177,5 +198,15 @@ document.addEventListener("DOMContentLoaded", () => {
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+  }
+
+  .pulse-icon {
+    animation: pulseIcon 2s infinite;
+  }
+
+  @keyframes pulseIcon {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
   }
 </style>

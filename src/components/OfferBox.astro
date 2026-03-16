@@ -10,7 +10,12 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
         <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
       </svg>
     </a>
-    <h2 class="font-head font-semibold text-xl uppercase tracking-widest text-primary text-center leading-tight px-4">Get The Complete Survival Guide Now</h2>
+    <div class="flex flex-col items-center gap-1">
+      <h2 class="font-head font-semibold text-xl uppercase tracking-widest text-primary text-center leading-tight px-4">Get The Complete Survival Guide Now</h2>
+      <div id="scarcity-badge-main" class="bg-alert-orange/20 border border-alert-orange text-alert-orange text-xs font-head uppercase tracking-widest px-3 py-1 mt-2 inline-flex items-center gap-2 transform transition-all duration-500 scale-95 opacity-0">
+        <span class="animate-pulse">🔥</span> <span id="spots-text-main">Loading spots...</span>
+      </div>
+    </div>
   </div>
 
   <div class="px-6 py-8">
@@ -98,3 +103,37 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
   </div>
 
 </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    try {
+      const { supabase } = await import("../lib/supabase");
+      const { data, error } = await supabase
+        .from('scarcity')
+        .select('spots_remaining, total_spots')
+        .single();
+        
+      if (error) throw error;
+      
+      const badge = document.getElementById("scarcity-badge-main");
+      const text = document.getElementById("spots-text-main");
+      
+      if (text && badge) {
+        text.innerText = `Only ${data.spots_remaining} of ${data.total_spots} Spots Remaining!`;
+        badge.classList.remove("scale-95", "opacity-0");
+        badge.classList.add("scale-100", "opacity-100");
+        
+        // Add a little shake animation to draw attention
+        setTimeout(() => {
+          badge.classList.add("animate-bounce");
+          setTimeout(() => badge.classList.remove("animate-bounce"), 1000);
+        }, 500);
+      }
+    } catch(err) {
+      console.error("OfferBox Scarcity Error:", err);
+      // Hide badge gracefully if fetch fails
+      const badge = document.getElementById("scarcity-badge-main");
+      if(badge) badge.style.display = 'none';
+    }
+  });
+</script>
