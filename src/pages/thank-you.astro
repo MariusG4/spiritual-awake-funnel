@@ -1,24 +1,30 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import LayoutOld from "../layouts/LayoutOld.astro";
 
 const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 ---
 
-<Layout title="Success! Welcome Inside | Surviving Spiritual Stalking">
+<LayoutOld title="Success! Welcome Inside | Surviving Spiritual Stalking">
 	<main class="thank-you-layout">
 		<div class="container text-center glass-panel content-box">
 			<div class="success-icon">✓</div>
 			<h1 class="mb-4 text-gradient">Payment Successful!</h1>
-			
+
 			<p class="mb-6 desc-text">
-				Welcome to the <strong>Surviving Spiritual Stalking</strong> community! Your access has been securely granted on Whop.
+				Welcome to the <strong>Surviving Spiritual Stalking</strong> community!
+				Your access has been securely granted on Whop.
 			</p>
-			
+
 			<div class="next-steps">
 				<h3>Next Steps:</h3>
 				<ol>
-					<li>Check your email for the receipt and access link from Whop.</li>
-					<li>Click the button below to go straight to your dashboard.</li>
+					<li>
+						Check your email for the receipt and access link from
+						Whop.
+					</li>
+					<li>
+						Click the button below to go straight to your dashboard.
+					</li>
 					<li>Introduce yourself in the community lobby!</li>
 				</ol>
 			</div>
@@ -31,29 +37,31 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 
 	<!-- Conversion Tracking Push -->
 	<script>
-		document.addEventListener('DOMContentLoaded', () => {
+		document.addEventListener("DOMContentLoaded", () => {
 			// Push to GTM / DataLayer
 			window.dataLayer = window.dataLayer || [];
 			window.dataLayer.push({
-				'event': 'purchase',
-				'ecommerce': {
-					'currency': 'USD',
-					'value': 97.00,
-					'items': [{
-						'item_name': 'Surviving Spiritual Stalking',
-						'price': 97.00,
-						'quantity': 1
-					}]
-				}
+				event: "purchase",
+				ecommerce: {
+					currency: "USD",
+					value: 97.0,
+					items: [
+						{
+							item_name: "Surviving Spiritual Stalking",
+							price: 97.0,
+							quantity: 1,
+						},
+					],
+				},
 			});
 
 			// Push to Meta Pixel if available
-			if (typeof fbq === 'function') {
-				fbq('track', 'Purchase', {currency: "USD", value: 97.00});
+			if (typeof fbq === "function") {
+				fbq("track", "Purchase", { currency: "USD", value: 97.0 });
 			}
 		});
 	</script>
-</Layout>
+</LayoutOld>
 
 <style>
 	.thank-you-layout {
