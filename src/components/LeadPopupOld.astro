@@ -91,27 +91,48 @@ document.addEventListener("DOMContentLoaded", () => {
   // Form Submission Logic
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
-    const formData = new FormData(form);
-    const data = {
-      name: formData.get('name'),
-      email: formData.get('email')
-    };
 
-    // --- INTEGRATION POINT ---
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+
+    const formData = new FormData(form);
+    const name  = formData.get('name');
+    const email = formData.get('email');
+
+    // Show loading state
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Saving… ⏳';
+
+    let supabaseOk = false;
     try {
       const { supabase } = await import("../lib/supabase");
-      await supabase.from('leads').insert({
-        email: data.email,
-        name: data.name,
+      const { error } = await supabase.from('leads').insert({
+        email,
+        name,
         source: 'spiritual_stalking_funnel'
       });
-    } catch (e) { console.error("Email submission to Supabase failed", e); }
-    
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        submitBtn.innerHTML = '⚠️ Error — retrying…';
+        // Still continue — never block the user from checking out
+      } else {
+        console.log("✅ Lead saved:", email);
+        supabaseOk = true;
+        submitBtn.innerHTML = '✅ Saved! Redirecting…';
+      }
+    } catch (err) {
+      console.error("Supabase request failed:", err);
+      submitBtn.innerHTML = '⚠️ Error — redirecting anyway…';
+    }
+
+    // Small visual pause so the user sees the feedback, then redirect
+    await new Promise(r => setTimeout(r, supabaseOk ? 600 : 1200));
+
     const targetUrl = leadPopup.dataset.targetUrl || whopLink;
     const redirectUrl = new URL(targetUrl);
-    redirectUrl.searchParams.append('email', data.email);
-    
+    redirectUrl.searchParams.append('email', email);
+
     window.location.href = redirectUrl.toString();
   });
 });
