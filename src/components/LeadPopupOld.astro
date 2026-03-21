@@ -1,29 +1,68 @@
 ---
-const { whopLink = "https://whop.com/escapenazis/surviving-spiritual-stalking" } = Astro.props;
+const {
+  whopLink = "https://whop.com/escapenazis/surviving-spiritual-stalking",
+} = Astro.props;
 ---
+
 <div id="lead-popup" class="popup-overlay" style="display: none;">
   <div class="popup-content glass-panel" style="max-width: 450px;">
     <button id="close-lead-popup" class="close-btn">&times;</button>
-    <h3 style="margin-bottom: 0.5rem; font-size: 1.8rem;">Let's Secure Your Access</h3>
-    <div id="scarcity-badge-popup" style="background: rgba(234, 88, 12, 0.2); border: 1px solid #ea580c; color: #ea580c; padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; opacity: 0; transform: scale(0.95); transition: all 0.3s;">
-      <span class="pulse-icon">🔥</span> <span id="spots-text-popup">Loading spots...</span>
+    <h3 style="margin-bottom: 0.5rem; font-size: 1.8rem;">
+      Let's Secure Your Access
+    </h3>
+    <div
+      id="scarcity-badge-popup"
+      style="background: rgba(234, 88, 12, 0.2); border: 1px solid #ea580c; color: #ea580c; padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; opacity: 0; transform: scale(0.95); transition: all 0.3s;"
+    >
+      <span class="pulse-icon">🔥</span>
+      <span id="spots-text-popup">Loading spots...</span>
     </div>
-    <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 1rem;">
-      Enter your details below so we can send you your backup access link, then proceed to the secure checkout.
+    <p
+      style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 1rem;"
+    >
+      Enter your details below so we can send you your backup access link, then
+      proceed to the secure checkout.
     </p>
 
     <form id="lead-capture-form" class="lead-form">
       <div class="form-group">
         <label for="lead-name">First Name</label>
-        <input type="text" id="lead-name" name="name" required placeholder="e.g. John" aria-label="First Name" />
-      </div>
-      
-      <div class="form-group">
-        <label for="lead-email">Email Address</label>
-        <input type="email" id="lead-email" name="email" required placeholder="e.g. john@example.com" aria-label="Email Address" />
+        <input
+          type="text"
+          id="lead-name"
+          name="name"
+          required
+          placeholder="e.g. John"
+          aria-label="First Name"
+        />
       </div>
 
-      <button type="submit" class="btn-primary w-full mt-4" style="margin-top: 1.5rem; width: 100%;">
+      <div class="form-group">
+        <label for="lead-email">Email Address</label>
+        <input
+          type="email"
+          id="lead-email"
+          name="email"
+          required
+          placeholder="e.g. john@example.com"
+          aria-label="Email Address"
+        />
+      </div>
+
+      <div
+        class="cf-turnstile"
+        data-sitekey="0x4AAAAAACt41lkV_paxNVHk"
+        data-theme="light"
+        data-size="normal"
+        data-callback="onSuccess"
+      >
+      </div>
+
+      <button
+        type="submit"
+        class="btn-primary w-full mt-4"
+        style="margin-top: 1.5rem; width: 100%;"
+      >
         Continue to Checkout &rarr;
       </button>
       <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
@@ -34,108 +73,108 @@ const { whopLink = "https://whop.com/escapenazis/surviving-spiritual-stalking" }
 </div>
 
 <script define:vars={{ whopLink }}>
-document.addEventListener("DOMContentLoaded", () => {
-  const leadPopup = document.getElementById("lead-popup");
-  const closeBtn = document.getElementById("close-lead-popup");
-  const form = document.getElementById("lead-capture-form");
+  document.addEventListener("DOMContentLoaded", () => {
+    const leadPopup = document.getElementById("lead-popup");
+    const closeBtn = document.getElementById("close-lead-popup");
+    const form = document.getElementById("lead-capture-form");
 
-  // Intercept all whop links on the page
-  const allWhopLinks = document.querySelectorAll('a[href*="whop.com"]');
-  
-  allWhopLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+    // Intercept all whop links on the page
+    const allWhopLinks = document.querySelectorAll('a[href*="whop.com"]');
+
+    allWhopLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        leadPopup.style.display = "flex";
+        leadPopup.dataset.targetUrl = link.href || whopLink;
+      });
+    });
+
+    // Close logic
+    closeBtn?.addEventListener("click", () => {
+      leadPopup.style.display = "none";
+    });
+
+    leadPopup?.addEventListener("click", (e) => {
+      if (e.target === leadPopup) {
+        leadPopup.style.display = "none";
+      }
+    });
+
+    // Fetch scarcity on load
+    const fetchScarcity = async () => {
+      try {
+        const { supabase } = await import("../lib/supabase");
+        const { data, error } = await supabase
+          .from("scarcity")
+          .select("spots_remaining, total_spots")
+          .single();
+
+        if (error) throw error;
+
+        const badge = document.getElementById("scarcity-badge-popup");
+        const text = document.getElementById("spots-text-popup");
+
+        if (text && badge) {
+          text.innerText = `Only ${data.spots_remaining} Spots Left!`;
+          badge.style.opacity = "1";
+          badge.style.transform = "scale(1)";
+        }
+      } catch (e) {
+        console.error("Scarcity fetch failed:", e);
+        const badge = document.getElementById("scarcity-badge-popup");
+        if (badge) badge.style.display = "none";
+      }
+    };
+    fetchScarcity();
+
+    // Form Submission Logic
+    form?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      leadPopup.style.display = "flex";
-      leadPopup.dataset.targetUrl = link.href || whopLink;
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+
+      const formData = new FormData(form);
+      const name = formData.get("name");
+      const email = formData.get("email");
+
+      // Show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = "Saving… ⏳";
+
+      let supabaseOk = false;
+      try {
+        const { supabase } = await import("../lib/supabase");
+        const { error } = await supabase.from("leads").insert({
+          email,
+          name,
+          source: "spiritual_stalking_funnel",
+        });
+
+        if (error) {
+          console.error("Supabase insert error:", error);
+          submitBtn.innerHTML = "⚠️ Error — retrying…";
+          // Still continue — never block the user from checking out
+        } else {
+          console.log("✅ Lead saved:", email);
+          supabaseOk = true;
+          submitBtn.innerHTML = "✅ Saved! Redirecting…";
+        }
+      } catch (err) {
+        console.error("Supabase request failed:", err);
+        submitBtn.innerHTML = "⚠️ Error — redirecting anyway…";
+      }
+
+      // Small visual pause so the user sees the feedback, then redirect
+      await new Promise((r) => setTimeout(r, supabaseOk ? 600 : 1200));
+
+      const targetUrl = leadPopup.dataset.targetUrl || whopLink;
+      const redirectUrl = new URL(targetUrl);
+      redirectUrl.searchParams.append("email", email);
+
+      window.location.href = redirectUrl.toString();
     });
   });
-
-  // Close logic
-  closeBtn?.addEventListener("click", () => {
-    leadPopup.style.display = "none";
-  });
-
-  leadPopup?.addEventListener("click", (e) => {
-    if (e.target === leadPopup) {
-      leadPopup.style.display = "none";
-    }
-  });
-
-  // Fetch scarcity on load
-  const fetchScarcity = async () => {
-    try {
-      const { supabase } = await import("../lib/supabase");
-      const { data, error } = await supabase
-        .from('scarcity')
-        .select('spots_remaining, total_spots')
-        .single();
-        
-      if (error) throw error;
-      
-      const badge = document.getElementById("scarcity-badge-popup");
-      const text = document.getElementById("spots-text-popup");
-      
-      if (text && badge) {
-        text.innerText = `Only ${data.spots_remaining} Spots Left!`;
-        badge.style.opacity = "1";
-        badge.style.transform = "scale(1)";
-      }
-    } catch (e) {
-      console.error("Scarcity fetch failed:", e);
-      const badge = document.getElementById("scarcity-badge-popup");
-      if(badge) badge.style.display = 'none';
-    }
-  };
-  fetchScarcity();
-
-  // Form Submission Logic
-  form?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-
-    const formData = new FormData(form);
-    const name  = formData.get('name');
-    const email = formData.get('email');
-
-    // Show loading state
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = 'Saving… ⏳';
-
-    let supabaseOk = false;
-    try {
-      const { supabase } = await import("../lib/supabase");
-      const { error } = await supabase.from('leads').insert({
-        email,
-        name,
-        source: 'spiritual_stalking_funnel'
-      });
-
-      if (error) {
-        console.error("Supabase insert error:", error);
-        submitBtn.innerHTML = '⚠️ Error — retrying…';
-        // Still continue — never block the user from checking out
-      } else {
-        console.log("✅ Lead saved:", email);
-        supabaseOk = true;
-        submitBtn.innerHTML = '✅ Saved! Redirecting…';
-      }
-    } catch (err) {
-      console.error("Supabase request failed:", err);
-      submitBtn.innerHTML = '⚠️ Error — redirecting anyway…';
-    }
-
-    // Small visual pause so the user sees the feedback, then redirect
-    await new Promise(r => setTimeout(r, supabaseOk ? 600 : 1200));
-
-    const targetUrl = leadPopup.dataset.targetUrl || whopLink;
-    const redirectUrl = new URL(targetUrl);
-    redirectUrl.searchParams.append('email', email);
-
-    window.location.href = redirectUrl.toString();
-  });
-});
 </script>
 
 <style>
@@ -145,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gap: 1rem;
     text-align: left;
   }
-  
+
   .form-group {
     display: flex;
     flex-direction: column;
@@ -172,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
   .form-group input:focus {
     border-color: var(--primary);
   }
-  
+
   .form-group input::placeholder {
     color: rgba(255, 255, 255, 0.3);
   }
@@ -217,8 +256,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   .pulse-icon {
@@ -226,8 +269,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   @keyframes pulseIcon {
-    0% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(1.1); }
-    100% { opacity: 1; transform: scale(1); }
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 </style>
