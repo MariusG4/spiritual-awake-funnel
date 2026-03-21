@@ -22,7 +22,7 @@ const description = "Read the latest articles on spiritual hygiene and protectio
     <div class="blog-grid">
       {posts.map((post) => (
         <article class="glass-panel blog-card">
-          <a href={`/blog/${post.slug}`}>
+          <a href={`/blog/${post.id}`}>
             {post.data.image && (
               <div class="blog-image-wrapper mb-4">
                 <img 
