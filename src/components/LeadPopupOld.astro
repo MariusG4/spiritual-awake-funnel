@@ -83,17 +83,16 @@ const {
     // Retrieve whopLink from dataset since we can't use define:vars with standard module scripts
     const whopLink = leadPopup?.dataset.whopLink || "https://whop.com/escapenazis/surviving-spiritual-stalking";
 
-    // Intercept all whop links on the page
-    const allWhopLinks = document.querySelectorAll<HTMLAnchorElement>('a[href*="whop.com"]');
-
-    allWhopLinks.forEach((link) => {
-      link.addEventListener("click", (e) => {
+    // Intercept all whop links on the page using event delegation
+    document.addEventListener("click", (e) => {
+      const link = (e.target as Element).closest('a[href*="whop.com"]') as HTMLAnchorElement;
+      if (link) {
         e.preventDefault();
         if (leadPopup) {
           leadPopup.style.display = "flex";
           leadPopup.dataset.targetUrl = link.href || whopLink;
         }
-      });
+      }
     });
 
     // Close logic
@@ -155,30 +154,37 @@ const {
       submitBtn.disabled = true;
       submitBtn.innerHTML = "Saving… ⏳";
 
-      let supabaseOk = false;
+      let functionOk = false;
       try {
-        const { error } = await supabase.from("leads").insert({
-          email,
-          name,
-          source: "spiritual_stalking_funnel",
+        const payload = Object.fromEntries(formData.entries());
+        payload.source = "spiritual_stalking_funnel";
+
+        const response = await fetch("/.netlify/functions/lead", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
         });
 
-        if (error) {
-          console.error("Supabase insert error:", error);
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          console.error("Function error:", result);
           submitBtn.innerHTML = "⚠️ Error — retrying…";
           // Still continue — never block the user from checking out
         } else {
           console.log("✅ Lead saved:", email);
-          supabaseOk = true;
+          functionOk = true;
           submitBtn.innerHTML = "✅ Saved! Redirecting…";
         }
       } catch (err) {
-        console.error("Supabase request failed:", err);
+        console.error("Function request failed:", err);
         submitBtn.innerHTML = "⚠️ Error — redirecting anyway…";
       }
 
       // Small visual pause so the user sees the feedback, then redirect
-      await new Promise((r) => setTimeout(r, supabaseOk ? 600 : 1200));
+      await new Promise((r) => setTimeout(r, functionOk ? 600 : 1200));
 
       const targetUrl = leadPopup?.dataset.targetUrl || whopLink;
       const redirectUrl = new URL(targetUrl);
