@@ -1,55 +1,104 @@
 ---
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 ---
-<section id="checkout" class="w-full max-w-lg mx-auto bg-surface mt-12 pb-20 border-t border-border mt-10">
-  
-  <div class="py-6 flex items-center justify-center relative border-b border-border">
+
+<section
+  id="checkout"
+  class="w-full max-w-lg mx-auto bg-surface mt-12 pb-20 border-t border-border mt-10"
+>
+  <div
+    class="py-6 flex items-center justify-center relative border-b border-border"
+  >
     <a href="#curriculum" class="absolute left-4 text-primary hover:opacity-75">
-      <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="square"
+          stroke-linejoin="miter"
+          stroke-width="2"
+          d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
       </svg>
     </a>
     <div class="flex flex-col items-center gap-1">
-      <h2 class="font-head font-semibold text-xl uppercase tracking-widest text-primary text-center leading-tight px-4">Get The Complete Survival Guide Now</h2>
-      <div id="scarcity-badge-main" class="bg-alert-orange/20 border border-alert-orange text-alert-orange text-xs font-head uppercase tracking-widest px-3 py-1 mt-2 inline-flex items-center gap-2 transform transition-all duration-500 scale-95 opacity-0">
-        <span class="animate-pulse">🔥</span> <span id="spots-text-main">Loading spots...</span>
+      <h2
+        class="font-head font-semibold text-xl uppercase tracking-widest text-primary text-center leading-tight px-4"
+      >
+        Get The Complete Survival Guide Now
+      </h2>
+      <div
+        id="scarcity-badge-main"
+        class="bg-alert-orange/20 border border-alert-orange text-alert-orange text-xs font-head uppercase tracking-widest px-3 py-1 mt-2 inline-flex items-center gap-2 transform transition-all duration-500 scale-95 opacity-0"
+      >
+        <span class="animate-pulse">🔥</span>
+        <span id="spots-text-main">Loading spots...</span>
       </div>
     </div>
   </div>
 
   <div class="px-6 py-8">
-    
     <div class="border-l-2 border-primary pl-3 mb-6">
-      <h3 class="font-head text-sm tracking-widest text-primary uppercase">Order Summary</h3>
+      <h3 class="font-head text-sm tracking-widest text-primary uppercase">
+        Order Summary
+      </h3>
     </div>
 
     <!-- Product Card -->
     <div class="bg-bg p-4 flex gap-4 items-center mb-6">
-      <div class="w-16 h-24 flex-shrink-0 flex items-center justify-center overflow-hidden">
-        <Image src="/img/3d-book-mockup.png" alt="Surviving Spiritual Stalking Book Cover" width={600} height={800} class="w-full h-full object-contain filter drop-shadow-md" />
+      <div
+        class="w-16 h-24 flex-shrink-0 flex items-center justify-center overflow-hidden"
+      >
+        <Image
+          src="/img/3d-book-mockup.png"
+          alt="Surviving Spiritual Stalking Book Cover"
+          width={600}
+          height={800}
+          class="w-full h-full object-contain filter drop-shadow-md"
+        />
       </div>
       <div class="flex-grow">
-        <h4 class="font-body font-semibold text-primary text-base leading-tight mb-1">Surviving Spiritual Stalking</h4>
-        <p class="font-body text-xs text-primary/70">Digital eBook • Immediate Access</p>
+        <h4
+          class="font-body font-semibold text-primary text-base leading-tight mb-1"
+        >
+          Surviving Spiritual Stalking
+        </h4>
+        <p class="font-body text-xs text-primary/70">
+          Digital eBook • Immediate Access
+        </p>
       </div>
       <div class="text-right flex-shrink-0">
-        <span class="font-head font-medium text-xl text-primary">$27.00</span>
+        <span class="font-head font-medium text-xl text-primary">$43.00</span>
       </div>
     </div>
 
     <!-- Trust Badges -->
     <div class="grid grid-cols-2 gap-4 mb-8">
-      <div class="bg-bg py-3 px-2 text-center flex items-center justify-center gap-2 border border-border/50 text-[10px] sm:text-xs font-head uppercase tracking-wider text-primary">
-        <svg class="w-4 h-4 text-primary flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          <path fill="#F4F6F7" d="M11 14h2v-2h-2v2zm0-4h2V7h-2v3z" />
+      <div
+        class="bg-bg py-3 px-2 text-center flex items-center justify-center gap-2 border border-border/50 text-[10px] sm:text-xs font-head uppercase tracking-wider text-primary"
+      >
+        <svg
+          class="w-4 h-4 text-primary flex-shrink-0"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          <path fill="#F4F6F7" d="M11 14h2v-2h-2v2zm0-4h2V7h-2v3z"></path>
         </svg>
         100% Confidential
       </div>
-      <div class="bg-bg py-3 px-2 text-center flex items-center justify-center gap-2 border border-border/50 text-[10px] sm:text-xs font-head uppercase tracking-wider text-primary">
-        <svg class="w-4 h-4 text-primary flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M13 2L3 14h7v8l11-12h-8l3-8z" />
+      <div
+        class="bg-bg py-3 px-2 text-center flex items-center justify-center gap-2 border border-border/50 text-[10px] sm:text-xs font-head uppercase tracking-wider text-primary"
+      >
+        <svg
+          class="w-4 h-4 text-primary flex-shrink-0"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M13 2L3 14h7v8l11-12h-8l3-8z"></path>
         </svg>
         No One Will Know You Have This
       </div>
@@ -57,51 +106,104 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 
     <!-- Mock Forms linking to Whop -->
     <div class="mb-5">
-      <label class="block font-head text-xs tracking-widest text-primary uppercase mb-2">Email Address</label>
-      <input type="email" placeholder="name@example.com" class="w-full bg-surface border border-border p-3 font-body text-sm focus:outline-none focus:border-primary placeholder-primary/40 pointer-events-none" readonly />
+      <label
+        class="block font-head text-xs tracking-widest text-primary uppercase mb-2"
+        >Email Address</label
+      >
+      <input
+        type="email"
+        placeholder="name@example.com"
+        class="w-full bg-surface border border-border p-3 font-body text-sm focus:outline-none focus:border-primary placeholder-primary/40 pointer-events-none"
+        readonly
+      />
     </div>
 
     <div class="mb-8">
-      <label class="block font-head text-xs tracking-widest text-primary uppercase mb-2">Card Details</label>
+      <label
+        class="block font-head text-xs tracking-widest text-primary uppercase mb-2"
+        >Card Details</label
+      >
       <div class="border border-border bg-surface mb-3 flex items-center px-3">
-        <input type="text" placeholder="0000 0000 0000 0000" class="w-full py-3 font-body text-sm focus:outline-none placeholder-primary/40 pointer-events-none" readonly />
-        <svg class="w-6 h-6 text-border ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+        <input
+          type="text"
+          placeholder="0000 0000 0000 0000"
+          class="w-full py-3 font-body text-sm focus:outline-none placeholder-primary/40 pointer-events-none"
+          readonly
+        />
+        <svg
+          class="w-6 h-6 text-border ml-2"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          ><path
+            d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+          ></path></svg
+        >
       </div>
       <div class="grid grid-cols-2 gap-3">
-        <input type="text" placeholder="MM / YY" class="w-full bg-surface border border-border p-3 font-body text-sm focus:outline-none placeholder-primary/40 pointer-events-none" readonly />
-        <input type="text" placeholder="CVC" class="w-full bg-surface border border-border p-3 font-body text-sm focus:outline-none placeholder-primary/40 pointer-events-none" readonly />
+        <input
+          type="text"
+          placeholder="MM / YY"
+          class="w-full bg-surface border border-border p-3 font-body text-sm focus:outline-none placeholder-primary/40 pointer-events-none"
+          readonly
+        />
+        <input
+          type="text"
+          placeholder="CVC"
+          class="w-full bg-surface border border-border p-3 font-body text-sm focus:outline-none placeholder-primary/40 pointer-events-none"
+          readonly
+        />
       </div>
     </div>
 
-    <a href={WHOP_LINK} class="w-full flex items-center justify-center gap-2 py-4 bg-primary text-surface font-head tracking-widest text-sm uppercase shadow-hard hover:bg-opacity-90 transition transform">
-      <span class="text-lg">🔓</span> GET INSTANT ACCESS <span class="text-lg">→</span>
+    <a
+      href={WHOP_LINK}
+      class="w-full flex items-center justify-center gap-2 py-4 bg-primary text-surface font-head tracking-widest text-sm uppercase shadow-hard hover:bg-opacity-90 transition transform"
+    >
+      <span class="text-lg">🔓</span> GET INSTANT ACCESS <span class="text-lg"
+        >→</span
+      >
     </a>
-    
-    <p class="text-center font-body text-[10px] uppercase tracking-wider text-primary/50 mt-4 leading-relaxed">
-      By completing your purchase you agree to our<br/>Terms of Service & Privacy Policy.
-    </p>
 
+    <p
+      class="text-center font-body text-[10px] uppercase tracking-wider text-primary/50 mt-4 leading-relaxed"
+    >
+      By completing your purchase you agree to our<br />Terms of Service &
+      Privacy Policy.
+    </p>
   </div>
 
   <div class="px-6 pb-12 pt-4 bg-bg">
     <div class="flex items-start gap-3 mb-8">
-      <div class="w-6 h-6 rounded-full bg-border flex items-center justify-center flex-shrink-0 text-surface font-bold text-xs mt-0.5">
+      <div
+        class="w-6 h-6 rounded-full bg-border flex items-center justify-center flex-shrink-0 text-surface font-bold text-xs mt-0.5"
+      >
         i
       </div>
-      <p class="font-body text-[13px] text-primary/80 leading-relaxed font-semibold">
-        <span class="text-alert-orange font-bold uppercase tracking-wider">Why You Need This NOW:</span> Every day you wait, their patterns get deeper. Your mind gets more confused. They get stronger. But once you have the knowledge, you become dangerous to THEM. Knowledge is power, and right now, they have all of it. Let's change that.
+      <p
+        class="font-body text-[13px] text-primary/80 leading-relaxed font-semibold"
+      >
+        <span class="text-alert-orange font-bold uppercase tracking-wider"
+          >Why You Need This NOW:</span
+        > Every day you wait, their patterns get deeper. Your mind gets more confused.
+        They get stronger. But once you have the knowledge, you become dangerous to
+        THEM. Knowledge is power, and right now, they have all of it. Let's change
+        that.
       </p>
     </div>
 
     <!-- Security Badges Footer Box -->
-    <div class="w-full h-48 bg-gray-300 flex items-center justify-center shadow-inner relative overflow-hidden">
-        <div class="absolute inset-0 pattern-dots text-primary/5 opacity-50"></div>
-        <div class="w-32 h-20 bg-gray-400 rounded-md border border-gray-500 shadow flex items-center justify-center text-white/50 font-head tracking-widest relative z-10">
-          [SECURE]
-        </div>
+    <div
+      class="w-full h-48 bg-gray-300 flex items-center justify-center shadow-inner relative overflow-hidden"
+    >
+      <div class="absolute inset-0 pattern-dots text-primary/5 opacity-50">
+      </div>
+      <div
+        class="w-32 h-20 bg-gray-400 rounded-md border border-gray-500 shadow flex items-center justify-center text-white/50 font-head tracking-widest relative z-10"
+      >
+        [SECURE]
+      </div>
     </div>
   </div>
-
 </section>
 
 <script>
@@ -109,31 +211,31 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
     try {
       const { supabase } = await import("../lib/supabase");
       const { data, error } = await supabase
-        .from('scarcity')
-        .select('spots_remaining, total_spots')
+        .from("scarcity")
+        .select("spots_remaining, total_spots")
         .single();
-        
+
       if (error) throw error;
-      
+
       const badge = document.getElementById("scarcity-badge-main");
       const text = document.getElementById("spots-text-main");
-      
+
       if (text && badge) {
         text.innerText = `Only ${data.spots_remaining} of ${data.total_spots} Spots Remaining!`;
         badge.classList.remove("scale-95", "opacity-0");
         badge.classList.add("scale-100", "opacity-100");
-        
+
         // Add a little shake animation to draw attention
         setTimeout(() => {
           badge.classList.add("animate-bounce");
           setTimeout(() => badge.classList.remove("animate-bounce"), 1000);
         }, 500);
       }
-    } catch(err) {
+    } catch (err) {
       console.error("OfferBox Scarcity Error:", err);
       // Hide badge gracefully if fetch fails
       const badge = document.getElementById("scarcity-badge-main");
-      if(badge) badge.style.display = 'none';
+      if (badge) badge.style.display = "none";
     }
   });
 </script>

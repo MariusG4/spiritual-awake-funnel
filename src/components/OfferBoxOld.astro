@@ -20,20 +20,100 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
         >
           🔥 <span id="spots-text-old">Loading...</span>
         </div>
-        <span class="msrp">Normal Value: <s>$99</s></span>
+        <span class="msrp">Total Value: <s>$413+</s></span>
         <span class="sale-price">Today: $43</span>
       </div>
 
-      <ul class="offer-list">
+      <ul class="offer-list detailed-offer-list">
         <li>
-          <span class="check">✓</span> Complete Survival Guide & Protection Protocols
+          <div class="item-text">
+            <span class="item-title"
+              ><span class="check">✓</span> Complete Survival Guide</span
+            >
+            <span class="item-badge">Core</span>
+          </div>
+          <span class="item-price">$47</span>
         </li>
         <li>
-          <span class="check">✓</span> Electronics Safety & Escape Strategy
+          <div class="item-text">
+            <span class="item-title"
+              ><span class="check">✓</span> Protection Protocols</span
+            >
+            <span class="item-badge">Core</span>
+          </div>
+          <span class="item-price">$27</span>
         </li>
-        <li><span class="check">✓</span> Mental Fortification Techniques</li>
         <li>
-          <span class="check">✓</span> Instant Action Plan (Next 24 Hours)
+          <div class="item-text">
+            <span class="item-title"
+              ><span class="check">✓</span> Full Video Course</span
+            >
+            <span class="item-badge">Core</span>
+          </div>
+          <span class="item-price">$97</span>
+        </li>
+        <li>
+          <div class="item-text">
+            <span class="item-title"
+              ><span class="check">✓</span> Understanding the Attack Presentation</span
+            >
+            <span class="item-badge">Core</span>
+          </div>
+          <span class="item-price">$37</span>
+        </li>
+        <li>
+          <div class="item-text">
+            <span class="item-title"
+              ><span class="check">✓</span> 1-on-1 Private Call (15 min)</span
+            >
+            <span class="item-badge bonus">Bonus #1</span>
+          </div>
+          <span class="item-price">$97</span>
+        </li>
+        <li>
+          <div class="item-text">
+            <span class="item-title"
+              ><span class="check">✓</span> Emotion & Thought Tracker</span
+            >
+            <span class="item-badge bonus">Bonus #2</span>
+          </div>
+          <span class="item-price">$17</span>
+        </li>
+        <li>
+          <div class="item-text">
+            <span class="item-title"
+              ><span class="check">✓</span> Mapping Your Situation Worksheet</span
+            >
+            <span class="item-badge bonus">Bonus #3</span>
+          </div>
+          <span class="item-price">$17</span>
+        </li>
+        <li>
+          <div class="item-text">
+            <span class="item-title"
+              ><span class="check">✓</span> Focus Exercises</span
+            >
+            <span class="item-badge bonus">Bonus #4</span>
+          </div>
+          <span class="item-price">$27</span>
+        </li>
+        <li>
+          <div class="item-text">
+            <span class="item-title"
+              ><span class="check">✓</span> Private Community (Lifetime)</span
+            >
+            <span class="item-badge bonus">Bonus #5</span>
+          </div>
+          <span class="item-price">$47</span>
+        </li>
+        <li>
+          <div class="item-text">
+            <span class="item-title"
+              ><span class="check">✓</span> Future Product Discounts</span
+            >
+            <span class="item-badge bonus">Bonus #6</span>
+          </div>
+          <span class="item-price priceless">Priceless</span>
         </li>
       </ul>
 
@@ -101,15 +181,61 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
     list-style: none;
     text-align: left;
     margin: 0 auto 3rem;
-    max-width: 350px;
+    max-width: 450px;
   }
 
-  .offer-list li {
-    font-size: clamp(1rem, 3vw, 1.1rem);
-    margin-bottom: 1rem;
-    color: var(--text-main);
+  .detailed-offer-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+    padding: 0.75rem 0;
+    margin-bottom: 0;
+    font-size: clamp(0.95rem, 3vw, 1.05rem);
+  }
+
+  .detailed-offer-list li:last-child {
+    border-bottom: none;
+  }
+
+  .item-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item-title {
+    color: white;
+    font-weight: 500;
     display: flex;
     align-items: flex-start;
+  }
+
+  .item-badge {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-left: 1.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .item-badge.bonus {
+    color: #ea580c;
+    font-weight: bold;
+  }
+
+  .item-price {
+    font-weight: 600;
+    color: white;
+    margin-left: 1rem;
+  }
+
+  .item-price.priceless {
+    color: #10b981;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .check {
