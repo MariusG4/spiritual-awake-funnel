@@ -26,3 +26,12 @@ pnpm-debug.log*
 .example/*
 .env
 .test/*
+
+layouts/layout.astro
+index-new.astro
+components/OfferBox.astro
+components/Testimonials.astro
+components/Hero.astro
+components/Faq.astro
+components/Benefits.astro
+components/VSL.astro
