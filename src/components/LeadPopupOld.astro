@@ -4,7 +4,7 @@ const {
 } = Astro.props;
 ---
 
-<div id="lead-popup" class="popup-overlay" style="display: none;">
+<div id="lead-popup" class="popup-overlay" style="display: none;" data-whop-link={whopLink}>
   <div class="popup-content glass-panel" style="max-width: 450px;">
     <button id="close-lead-popup" class="close-btn">&times;</button>
     <h3 style="margin-bottom: 0.5rem; font-size: 1.8rem;">
@@ -54,7 +54,6 @@ const {
         data-sitekey="0x4AAAAAACt41lkV_paxNVHk"
         data-theme="light"
         data-size="normal"
-        data-callback="onSuccess"
       >
       </div>
 
@@ -72,26 +71,34 @@ const {
   </div>
 </div>
 
-<script define:vars={{ whopLink }}>
-  document.addEventListener("DOMContentLoaded", () => {
+<script>
+  import { supabase } from "../lib/supabase";
+
+  // In Astro, module scripts run after the DOM is ready, so DOMContentLoaded is not needed (and will often be missed!).
+  const initLeadPopup = () => {
     const leadPopup = document.getElementById("lead-popup");
     const closeBtn = document.getElementById("close-lead-popup");
-    const form = document.getElementById("lead-capture-form");
+    const form = document.getElementById("lead-capture-form") as HTMLFormElement;
+    
+    // Retrieve whopLink from dataset since we can't use define:vars with standard module scripts
+    const whopLink = leadPopup?.dataset.whopLink || "https://whop.com/escapenazis/surviving-spiritual-stalking";
 
     // Intercept all whop links on the page
-    const allWhopLinks = document.querySelectorAll('a[href*="whop.com"]');
+    const allWhopLinks = document.querySelectorAll<HTMLAnchorElement>('a[href*="whop.com"]');
 
     allWhopLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
-        leadPopup.style.display = "flex";
-        leadPopup.dataset.targetUrl = link.href || whopLink;
+        if (leadPopup) {
+          leadPopup.style.display = "flex";
+          leadPopup.dataset.targetUrl = link.href || whopLink;
+        }
       });
     });
 
     // Close logic
     closeBtn?.addEventListener("click", () => {
-      leadPopup.style.display = "none";
+      if (leadPopup) leadPopup.style.display = "none";
     });
 
     leadPopup?.addEventListener("click", (e) => {
@@ -103,7 +110,6 @@ const {
     // Fetch scarcity on load
     const fetchScarcity = async () => {
       try {
-        const { supabase } = await import("../lib/supabase");
         const { data, error } = await supabase
           .from("scarcity")
           .select("spots_remaining, total_spots")
@@ -131,12 +137,19 @@ const {
     form?.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const submitBtn = form.querySelector('button[type="submit"]');
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      if (!submitBtn) return;
       const originalText = submitBtn.innerHTML;
 
       const formData = new FormData(form);
-      const name = formData.get("name");
-      const email = formData.get("email");
+      const name = formData.get("name") as string;
+      const email = formData.get("email") as string;
+      const turnstileResponse = formData.get("cf-turnstile-response") as string;
+
+      if (!turnstileResponse) {
+        alert("Please complete the Cloudflare security check before continuing.");
+        return;
+      }
 
       // Show loading state
       submitBtn.disabled = true;
@@ -144,7 +157,6 @@ const {
 
       let supabaseOk = false;
       try {
-        const { supabase } = await import("../lib/supabase");
         const { error } = await supabase.from("leads").insert({
           email,
           name,
@@ -168,13 +180,15 @@ const {
       // Small visual pause so the user sees the feedback, then redirect
       await new Promise((r) => setTimeout(r, supabaseOk ? 600 : 1200));
 
-      const targetUrl = leadPopup.dataset.targetUrl || whopLink;
+      const targetUrl = leadPopup?.dataset.targetUrl || whopLink;
       const redirectUrl = new URL(targetUrl);
       redirectUrl.searchParams.append("email", email);
 
       window.location.href = redirectUrl.toString();
     });
-  });
+  };
+
+  initLeadPopup();
 </script>
 
 <style>

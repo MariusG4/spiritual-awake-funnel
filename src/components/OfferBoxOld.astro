@@ -290,9 +290,10 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", async () => {
+  import { supabase } from "../lib/supabase";
+
+  const initScarcityBadge = async () => {
     try {
-      const { supabase } = await import("../lib/supabase");
       const { data, error } = await supabase
         .from("scarcity")
         .select("spots_remaining, total_spots")
@@ -319,5 +320,7 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
       const badge = document.getElementById("scarcity-badge-old");
       if (badge) badge.style.display = "none";
     }
-  });
+  };
+
+  initScarcityBadge();
 </script>
