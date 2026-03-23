@@ -84,6 +84,30 @@ export type Database = {
         }
         Relationships: []
       }
+      whop_products: {
+        Row: {
+          id: string
+          whop_product_id: string
+          scarcity: number
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          whop_product_id: string
+          scarcity?: number
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          whop_product_id?: string
+          scarcity?: number
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

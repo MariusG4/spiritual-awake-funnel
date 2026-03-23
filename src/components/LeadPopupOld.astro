@@ -109,8 +109,9 @@ const {
       try {
         const { supabase } = await import("../lib/supabase");
         const { data, error } = await supabase
-          .from("scarcity")
-          .select("spots_remaining, total_spots")
+          .from("whop_products")
+          .select("scarcity")
+          .eq('whop_product_id', 'prod_nS8yhc2paxstR')
           .single();
 
         if (error) throw error;
@@ -119,7 +120,7 @@ const {
         const text = document.getElementById("spots-text-popup");
 
         if (text && badge) {
-          text.innerText = `Only ${data.spots_remaining} Spots Left!`;
+          text.innerText = `Only ${data.scarcity} Spots Left!`;
           badge.style.opacity = "1";
           badge.style.transform = "scale(1)";
         }

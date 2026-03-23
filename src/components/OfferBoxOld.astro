@@ -294,8 +294,9 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
     try {
       const { supabase } = await import("../lib/supabase");
       const { data, error } = await supabase
-        .from("scarcity")
-        .select("spots_remaining, total_spots")
+        .from("whop_products")
+        .select("scarcity")
+        .eq('whop_product_id', 'prod_nS8yhc2paxstR')
         .single();
 
       if (error) throw error;
@@ -304,7 +305,7 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
       const text = document.getElementById("spots-text-old");
 
       if (text && badge) {
-        text.innerText = `Only ${data.spots_remaining} Spots Left!`;
+        text.innerText = `Only ${data.scarcity} Spots Left!`;
         badge.style.transform = "scale(1)";
         badge.style.opacity = "1";
 

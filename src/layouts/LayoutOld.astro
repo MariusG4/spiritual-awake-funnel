@@ -114,12 +114,13 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 				try {
 					const { supabase } = await import("../lib/supabase");
 					const { data, error } = await supabase
-						.from("scarcity")
-						.select("spots_remaining")
+						.from("whop_products")
+						.select("scarcity")
+						.eq('whop_product_id', 'prod_nS8yhc2paxstR')
 						.single();
 					if (error) throw error;
 					const badge = document.getElementById("sticky-scarcity-text");
-					if (badge) badge.innerText = `Only ${data.spots_remaining} Spots Left!`;
+					if (badge) badge.innerText = `Only ${data.scarcity} Spots Left!`;
 				} catch (err) {
 					console.error("Sticky Scarcity Error:", err);
 				}
