@@ -40,9 +40,10 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 		<slot name="head" />
 
 		<!-- Cookiebot Consent Management (must be first, before any other scripts) -->
-		
+		<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="4679d381-4739-4678-bbbf-9e964f98cc77" data-blockingmode="auto" type="text/javascript"></script>
 
 		<!-- Google Tag Manager -->
+	
 		{GTM_ID && (
 			<script is:inline define:vars={{ GTM_ID }}>
 				(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
