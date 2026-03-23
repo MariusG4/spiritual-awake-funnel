@@ -2,8 +2,9 @@ import { createClient } from "@supabase/supabase-js";
 
 // Initialize Supabase client
 const supabaseUrl = process.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.PUBLIC_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// SECURITY FIX: Using the Service Role Key so RLS can be enforced on the client side, while the backend can always insert leads.
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = createClient(supabaseUrl, supabaseServiceKey || "");
 
 export async function handler(event) {
   // Only allow POST requests
