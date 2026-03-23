@@ -3,7 +3,7 @@ title: "How People Survived Spiritual Attacks Throughout History — And What Th
 description: "From Paul in a Roman prison to the Waldensians in the mountains — history's most targeted people left a blueprint for spiritual attack recovery. Here's what they knew."
 pubDate: 2026-03-23
 author: "Spiritual Shield System"
-image: "/images/hero-prison-light.jpg"
+image: "/images/hero-prison-light.png"
 tags:
   - spiritual attack recovery
   - spiritual warfare history
