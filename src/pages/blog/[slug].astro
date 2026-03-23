@@ -298,8 +298,8 @@ const ogImage = image || '/og-image.jpg';
     gap: 0.5rem;
   }
   .tag {
-    background: rgba(139, 92, 246, 0.15);
-    border: 1px solid rgba(139, 92, 246, 0.35);
+    background: rgba(var(--primary-rgb), 0.15);
+    border: 1px solid rgba(var(--primary-rgb), 0.35);
     color: #c4b5fd;
     border-radius: 999px;
     padding: 0.2rem 0.75rem;
@@ -323,9 +323,9 @@ const ogImage = image || '/og-image.jpg';
 
   /* ─── Key Takeaways ─── */
   .key-takeaways {
-    border: 1px solid rgba(139, 92, 246, 0.5);
+    border: 1px solid rgba(var(--primary-rgb), 0.5);
     border-radius: 16px;
-    background: rgba(139, 92, 246, 0.08);
+    background: rgba(var(--primary-rgb), 0.08);
     padding: 1.5rem 2rem;
   }
   .kt-title {
@@ -413,12 +413,12 @@ const ogImage = image || '/og-image.jpg';
   }
   .toc-item a:hover, .toc-link:hover {
     color: var(--text-main);
-    background: rgba(139,92,246,0.08);
+    background: rgba(var(--primary-rgb),0.08);
     border-left-color: var(--primary);
   }
   .toc-link.active {
     color: #c4b5fd;
-    background: rgba(139,92,246,0.12);
+    background: rgba(var(--primary-rgb),0.12);
     border-left-color: var(--primary);
     font-weight: 600;
   }
@@ -461,13 +461,13 @@ const ogImage = image || '/og-image.jpg';
     margin: 2rem 0;
     font-style: italic;
     color: var(--text-main);
-    background: rgba(139, 92, 246, 0.06);
+    background: rgba(var(--primary-rgb), 0.06);
     border-radius: 0 12px 12px 0;
   }
   .content a {
     color: var(--primary);
     text-decoration: underline;
-    text-decoration-color: rgba(139, 92, 246, 0.4);
+    text-decoration-color: rgba(var(--primary-rgb), 0.4);
     text-underline-offset: 4px;
   }
   .content a:hover {
@@ -491,7 +491,7 @@ const ogImage = image || '/og-image.jpg';
     background: rgba(255,255,255,0.02);
     transition: border-color 0.2s;
   }
-  .faq-item[open] { border-color: rgba(139,92,246,0.4); }
+  .faq-item[open] { border-color: rgba(var(--primary-rgb),0.4); }
   .faq-question {
     cursor: pointer;
     padding: 1rem 1.25rem;

@@ -56,8 +56,8 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 					sessionStorage.setItem("popup_shown", "true");
 					
 					// Track exit intent event
-					window.dataLayer = window.dataLayer || [];
-					window.dataLayer.push({ 'event': 'exit_intent_popup_shown' });
+					(window as any).dataLayer = (window as any).dataLayer || [];
+					(window as any).dataLayer.push({ 'event': 'exit_intent_popup_shown' });
 				}
 			}
 		});
@@ -80,7 +80,7 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 	.py-12 { padding: 4rem 0; }
 	.section-title { font-size: clamp(2rem, 6vw, 2.5rem); margin-bottom: 1rem; }
 	.section-desc { font-size: clamp(1.1rem, 4vw, 1.25rem); color: var(--text-muted); max-width: 700px; margin: 0 auto; line-height: 1.6; padding: 0 1rem; }
-	.divider { height: 1px; width: 100%; background: linear-gradient(90deg, transparent, rgba(139,92,246,0.5), transparent); margin: 2rem 0; }
+	.divider { height: 1px; width: 100%; background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb),0.5), transparent); margin: 2rem 0; }
 
 	/* Popup Styles */
 	.popup-overlay {

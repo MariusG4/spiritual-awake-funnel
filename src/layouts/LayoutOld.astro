@@ -40,7 +40,7 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 		<slot name="head" />
 
 		<!-- Cookiebot Consent Management (must be first, before any other scripts) -->
-		<script is:inline id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="4679d381-4739-4678-bbbf-9e964f98cc77" data-blockingmode="auto" type="text/javascript"></script>
+		
 
 		<!-- Google Tag Manager / Analytics Initialization -->
 		{GTM_ID !== 'GTM-XXXXXXX' && (
@@ -118,9 +118,13 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 					localStorage.setItem('ab_variant', variant);
 				}
 				
+				if (variant === 'B') {
+					document.documentElement.setAttribute('data-theme', 'gold');
+				}
+
 				// Push to dataLayer for GA4 custom dimension
-				window.dataLayer = window.dataLayer || [];
-				window.dataLayer.push({
+				(window as any).dataLayer = (window as any).dataLayer || [];
+				(window as any).dataLayer.push({
 					'event': 'ab_variant_assignment',
 					'ab_variant': variant
 				});
@@ -132,14 +136,14 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 			// CTA Click Tracking
 			document.querySelectorAll('.btn-primary').forEach(button => {
 				button.addEventListener('click', () => {
-					window.dataLayer = window.dataLayer || [];
-					window.dataLayer.push({
+					(window as any).dataLayer = (window as any).dataLayer || [];
+					(window as any).dataLayer.push({
 						'event': 'cta_click',
 						'button_text': button.textContent?.trim()
 					});
 
-					if (typeof fbq === 'function') {
-						fbq('track', 'InitiateCheckout');
+					if (typeof (window as any).fbq === 'function') {
+						(window as any).fbq('track', 'InitiateCheckout');
 					}
 				});
 			});

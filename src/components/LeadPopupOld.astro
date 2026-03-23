@@ -12,7 +12,7 @@ const {
     </h3>
     <div
       id="scarcity-badge-popup"
-      style="background: rgba(234, 88, 12, 0.2); border: 1px solid #ea580c; color: #ea580c; padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; opacity: 0; transform: scale(0.95); transition: all 0.3s;"
+      style="background: rgba(var(--accent-rgb), 0.2); border: 1px solid var(--accent); color: var(--accent); padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; opacity: 0; transform: scale(0.95); transition: all 0.3s;"
     >
       <span class="pulse-icon">🔥</span>
       <span id="spots-text-popup">Loading spots...</span>
@@ -221,7 +221,7 @@ const {
     padding: 0.9rem 1rem;
     border-radius: 8px;
     border: 1px solid var(--glass-border);
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(var(--bg-darker-rgb), 0.4);
     color: white;
     font-size: 1rem;
     outline: none;
@@ -243,7 +243,7 @@ const {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(var(--bg-darker-rgb), 0.8);
     backdrop-filter: blur(8px);
     z-index: 9999;
     justify-content: center;
