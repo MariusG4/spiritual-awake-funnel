@@ -40,7 +40,7 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 		<slot name="head" />
 
 		<!-- Cookiebot Consent Management (must be first, before any other scripts) -->
-		<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="4679d381-4739-4678-bbbf-9e964f98cc77" data-blockingmode="auto" type="text/javascript"></script>
+		<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="4679d381-4739-4678-bbbf-9e964f98cc77" data-blockingmode="auto" type="text/javascript" async></script>
 
 		<!-- Google Tag Manager (Cookiebot controlled) -->
 		{GTM_ID && (
@@ -84,7 +84,7 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 		)}
 
 		<!-- Lottie Player JS -->
-		<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+		<script async defer src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 		
 		<!-- Cloudflare Turnstile -->
 		<link rel="preconnect" href="https://challenges.cloudflare.com">
@@ -107,8 +107,25 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 		
 		<!-- Sticky Top Bar (Urgency) -->
 		<div class="sticky-bar">
-			<p>🔒 <strong>Limited Spots Available</strong> — Secure your access to the exclusive group today.</p>
+			<p>🔒 <strong id="sticky-scarcity-text">Limited Spots Available</strong> — Secure your access to the exclusive group today.</p>
 		</div>
+		<script>
+			const initStickyScarcity = async () => {
+				try {
+					const { supabase } = await import("../lib/supabase");
+					const { data, error } = await supabase
+						.from("scarcity")
+						.select("spots_remaining")
+						.single();
+					if (error) throw error;
+					const badge = document.getElementById("sticky-scarcity-text");
+					if (badge) badge.innerText = `Only ${data.spots_remaining} Spots Left!`;
+				} catch (err) {
+					console.error("Sticky Scarcity Error:", err);
+				}
+			};
+			initStickyScarcity();
+		</script>
 
 		<slot />
 

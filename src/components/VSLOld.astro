@@ -1,5 +1,6 @@
 ---
 const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
+const YT_VIDEO_ID = "mqyGwE5VcUM";
 ---
 <section class="vsl-section">
   <div class="container text-center">
@@ -10,14 +11,28 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 
     <div class="video-container glass-panel">
       <div class="iframe-wrapper">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/mqyGwE5VcUM?rel=0&modestbranding=1"
-          title="Watch This Before They Find Out"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy"
-        ></iframe>
+        <!-- YouTube Facade: loads ~0KB instead of ~600KB on page load -->
+        <button
+          id="yt-facade"
+          class="yt-facade"
+          aria-label="Play video: Watch This Before They Find Out"
+          data-video-id={YT_VIDEO_ID}
+        >
+          <img
+            src={`https://i.ytimg.com/vi/${YT_VIDEO_ID}/maxresdefault.jpg`}
+            alt="Video thumbnail"
+            class="yt-facade-thumb"
+            loading="eager"
+            width="900"
+            height="506"
+          />
+          <div class="yt-facade-play">
+            <svg viewBox="0 0 68 48" width="68" height="48">
+              <path class="yt-facade-play-bg" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" fill-opacity="0.8"/>
+              <path d="M45 24L27 14v20" fill="#fff"/>
+            </svg>
+          </div>
+        </button>
       </div>
     </div>
 
@@ -29,10 +44,27 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
   </div>
 </section>
 
+<script>
+  const facade = document.getElementById('yt-facade');
+  facade?.addEventListener('click', () => {
+    const videoId = facade.dataset.videoId;
+    const wrapper = facade.parentElement;
+    if (!wrapper || !videoId) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1`;
+    iframe.title = 'Watch This Before They Find Out';
+    iframe.frameBorder = '0';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.style.cssText = 'width:100%;height:100%;display:block;border:none;';
+    wrapper.replaceChild(iframe, facade);
+  });
+</script>
+
 <style>
   .vsl-section {
     padding: 6rem 0;
-    background: rgba(var(--bg-dark-rgb), 0.3); /* Subtle backdrop */
+    background: rgba(var(--bg-dark-rgb), 0.3);
   }
 
   h2 {
@@ -42,7 +74,7 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
   .video-container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 1rem; /* Thin border/glass effect */
+    padding: 1rem;
     border-radius: 20px;
   }
 
@@ -60,12 +92,46 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
     border: none;
   }
 
+  /* YouTube Facade styles */
+  .yt-facade {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    background: #000;
+    display: block;
+  }
 
+  .yt-facade-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .yt-facade-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+
+  .yt-facade:hover .yt-facade-play {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .yt-facade:hover .yt-facade-play-bg {
+    fill: #ff0000;
+    fill-opacity: 1;
+  }
 
   @media (max-width: 768px) {
     .vsl-section { padding: 4rem 0; }
     h2 { font-size: 2rem; }
     .video-container { padding: 0.5rem; border-radius: 12px; }
-    .vsl-placeholder { border-radius: 8px; }
   }
 </style>

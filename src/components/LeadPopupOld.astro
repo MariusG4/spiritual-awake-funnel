@@ -72,8 +72,6 @@ const {
 </div>
 
 <script>
-  import { supabase } from "../lib/supabase";
-
   // In Astro, module scripts run after the DOM is ready, so DOMContentLoaded is not needed (and will often be missed!).
   const initLeadPopup = () => {
     const leadPopup = document.getElementById("lead-popup");
@@ -106,9 +104,10 @@ const {
       }
     });
 
-    // Fetch scarcity on load
+    // Fetch scarcity on load (dynamic import — Supabase SDK only loads when needed)
     const fetchScarcity = async () => {
       try {
+        const { supabase } = await import("../lib/supabase");
         const { data, error } = await supabase
           .from("scarcity")
           .select("spots_remaining, total_spots")

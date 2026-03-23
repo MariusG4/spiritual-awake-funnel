@@ -290,10 +290,9 @@ const WHOP_LINK = "https://whop.com/escapenazis/surviving-spiritual-stalking";
 </style>
 
 <script>
-  import { supabase } from "../lib/supabase";
-
   const initScarcityBadge = async () => {
     try {
+      const { supabase } = await import("../lib/supabase");
       const { data, error } = await supabase
         .from("scarcity")
         .select("spots_remaining, total_spots")
