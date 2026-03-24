@@ -10,6 +10,13 @@ const blogCollection = defineCollection({
         updatedDate: z.date().optional(),
         author: z.string().optional(),
         image: z.string().optional(),
+        /**
+         * Cloudinary public ID for the post's cover image.
+         * Example: "blog/spiritual-guide-hero"
+         * When provided, optimised responsive URLs are generated via Cloudinary's API.
+         * Falls back to `image` if omitted or if PUBLIC_CLOUDINARY_CLOUD_NAME is not set.
+         */
+        cloudinaryId: z.string().optional(),
         tags: z.array(z.string()).optional(),
         keyTakeaways: z.array(z.string()).optional(),
         faq: z.array(z.object({
