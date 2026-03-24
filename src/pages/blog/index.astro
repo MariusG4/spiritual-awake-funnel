@@ -1,6 +1,7 @@
 ---
 import LayoutOld from '../../layouts/LayoutOld.astro';
 import { getCollection } from 'astro:content';
+import { resolveImage } from '../../lib/cloudinary';
 
 const allPosts = await getCollection('blog');
 const posts = allPosts.filter(post => post.data.pubDate <= new Date());
@@ -20,15 +21,30 @@ const description = "Read the latest articles on spiritual hygiene and protectio
     </header>
 
     <div class="blog-grid">
-      {posts.map((post) => (
+      {posts.map((post) => {
+        // Resolve card image: prefer Cloudinary, fall back to plain URL.
+        // Cards sit in a responsive grid (minmax 300px → up to ~900px per card on wide screens).
+        const cardImage = resolveImage(
+          post.data.cloudinaryId,
+          post.data.image,
+          [300, 600, 900],
+          { crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' }
+        );
+        return (
         <article class="glass-panel blog-card">
           <a href={`/blog/${post.id}`}>
-            {post.data.image && (
+            {cardImage.src && (
               <div class="blog-image-wrapper mb-4">
-                <img 
-                  src={post.data.image} 
+                <img
+                  src={cardImage.src}
+                  srcset={cardImage.srcset}
+                  sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
                   alt={post.data.title}
                   class="blog-image"
+                  loading="lazy"
+                  decoding="async"
+                  width="600"
+                  height="338"
                 />
               </div>
             )}
@@ -48,7 +64,8 @@ const description = "Read the latest articles on spiritual hygiene and protectio
             </p>
           </a>
         </article>
-      ))}
+        );
+      })}
     </div>
   </main>
 </LayoutOld>

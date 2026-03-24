@@ -1,6 +1,7 @@
 ---
 import LayoutOld from '../../layouts/LayoutOld.astro';
 import { getCollection, render } from 'astro:content';
+import { resolveImage } from '../../lib/cloudinary';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
@@ -52,13 +53,22 @@ const {
   updatedDate,
   author,
   image,
+  cloudinaryId,
   tags = [],
   keyTakeaways = [],
   faq = [],
 } = post.data;
 
-const canonicalUrl = Astro.url.href;
 const ogImage = image || '/og-image.jpg';
+
+// Resolve the hero image — Cloudinary when available, plain URL as fallback.
+// Widths: 800px for most layouts, 1200px for large screens (container is max 1100px).
+const heroImage = resolveImage(cloudinaryId, image, [800, 1200], {
+  crop: 'fill',
+  gravity: 'auto',
+  quality: 'auto',
+  format: 'auto',
+});
 ---
 
 <LayoutOld
@@ -118,13 +128,17 @@ const ogImage = image || '/og-image.jpg';
           )}
         </header>
 
-        {image && (
+        {heroImage.src && (
           <div class="blog-hero-image mb-8">
             <img
-              src={image}
+              src={heroImage.src}
+              srcset={heroImage.srcset}
+              sizes="(max-width: 768px) 100vw, (max-width: 1100px) 80vw, 1100px"
               alt={title}
               loading="eager"
               decoding="async"
+              width="1100"
+              height="619"
             />
           </div>
         )}
