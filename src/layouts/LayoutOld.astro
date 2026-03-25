@@ -14,6 +14,8 @@ interface Props {
   updatedDate?: Date;
   tags?: string[];
   faq?: any[];
+  /** Pass true only on the page that actually embeds the shielding video. */
+  videoSchema?: boolean;
 }
 
 const { title, description = "Stop Unwanted Spiritual Intrusion Before It Escalates", ...seoProps } = Astro.props;

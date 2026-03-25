@@ -59,6 +59,7 @@ const {
   faq = [],
 } = post.data;
 
+const canonicalUrl = Astro.url.href;
 const ogImage = image || '/og-image.jpg';
 
 // Resolve the hero image — Cloudinary when available, plain URL as fallback.
