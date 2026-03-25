@@ -3,7 +3,8 @@ title: "Spiritual Warfare Signs: What Ancient Texts Reveal That Nobody Tells You
 description: "Discover the 9 documented signs of spiritual warfare across history, why they target specific people, and what ancient texts reveal about breaking free."
 pubDate: 2026-03-16
 author: "Spiritual Shield System"
-image: "/og-image.jpg"
+image: "/images/og-image.png"
+cloudinaryId: "blog/Mystical_Insights_Revealed_aul9jt"
 tags:
   - spiritual warfare signs
   - spiritual attack symptoms

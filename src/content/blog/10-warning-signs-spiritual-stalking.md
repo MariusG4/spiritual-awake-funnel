@@ -3,7 +3,8 @@ title: "10 Warning Signs You're Being Spiritually Stalked (And What To Do Right 
 description: "Experiencing intrusive thoughts, night sweats, or the feeling of being watched? These are the 10 warning signs of spiritual stalking — and here's exactly how to break free before it escalates."
 pubDate: 2026-03-14
 author: "Spiritual Shield System"
-image: "/og-image.jpg"
+image: "/images/og-image.png"
+cloudinaryId: "blog/10_Warning_Signs_Spiritual_Stalking"
 tags:
   - spiritual stalking
   - signs of spiritual attack

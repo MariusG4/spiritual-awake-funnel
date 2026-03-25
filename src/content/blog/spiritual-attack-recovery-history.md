@@ -4,6 +4,7 @@ description: "From Paul in a Roman prison to the Waldensians in the mountains â€
 pubDate: 2026-03-23
 author: "Spiritual Shield System"
 image: "/images/hero-prison-light.png"
+cloudinaryId: "blog/How_People_Survived_Spiritual_Attacks_Throughout_History"
 tags:
   - spiritual attack recovery
   - spiritual warfare history

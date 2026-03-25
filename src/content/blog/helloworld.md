@@ -4,7 +4,8 @@ description: "A foundational guide to recognizing and preventing spiritual intru
 pubDate: 2026-03-07
 updatedDate: 2026-03-13
 author: "Spiritual Shield System"
-image: "/og-image.jpg"
+image: "/images/og-image.png"
+cloudinaryId: "blog/Understanding_Spiritual_Shielding_Basics"
 tags:
   - spiritual shielding
   - psychic protection
