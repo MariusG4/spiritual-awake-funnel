@@ -4,7 +4,7 @@ description: "Discover the 9 documented signs of spiritual warfare across histor
 pubDate: 2026-03-16
 author: "Spiritual Shield System"
 image: "/images/og-image.png"
-cloudinaryId: "blog/Mystical_Insights_Revealed_aul9jt"
+cloudinaryId: "Mystical_Insights_Revealed_aul9jt"
 tags:
   - spiritual warfare signs
   - spiritual attack symptoms

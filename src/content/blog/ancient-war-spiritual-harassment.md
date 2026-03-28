@@ -4,7 +4,7 @@ description: "Drawing from ancient scripture, historical spiritual warfare accou
 pubDate: 2026-03-15
 author: "Spiritual Shield System"
 image: "/images/og-image.png"
-cloudinaryId: "blog/Ancient_War_Spiritual_Harassment"
+cloudinaryId: "Ancient_War_Spiritual_Harassment"
 tags:
   - spiritual harassment
   - spiritual warfare

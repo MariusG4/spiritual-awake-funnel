@@ -5,7 +5,7 @@ pubDate: 2026-03-07
 updatedDate: 2026-03-13
 author: "Spiritual Shield System"
 image: "/images/og-image.png"
-cloudinaryId: "blog/Understanding_Spiritual_Shielding_Basics"
+cloudinaryId: "Understanding_Spiritual_Shielding_Basics"
 tags:
   - spiritual shielding
   - psychic protection
