@@ -39,7 +39,18 @@ const {
 } = Astro.props;
 
 const isArticle = type === "article";
-const absImage = new URL(image, Astro.url).toString();
+
+// Build an absolute OG image URL.
+// Guards against three edge cases:
+//   1. `image` is already absolute (Cloudinary URL) → use it as-is.
+//   2. `image` is a root-relative path like "/og-image.jpg" → resolve against origin.
+//   3. `image` is empty string (getCloudinaryUrl returned '' because CLOUD_NAME is unset
+//      and the caller used it without checking) → fall back to "/og-image.jpg" first,
+//      otherwise new URL('', Astro.url) would silently return the current page URL.
+const _safeImage = image || '/og-image.jpg';
+const absImage = _safeImage.startsWith('http')
+  ? _safeImage
+  : new URL(_safeImage, Astro.url).href;
 
 // --- JSON-LD schemas ---
 const schemas: object[] = [

@@ -1,7 +1,7 @@
 ---
 import LayoutOld from '../../layouts/LayoutOld.astro';
 import { getCollection, render } from 'astro:content';
-import { resolveImage } from '../../lib/cloudinary';
+import { resolveImage, getCloudinaryUrl } from '../../lib/cloudinary';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
@@ -60,7 +60,24 @@ const {
 } = post.data;
 
 const canonicalUrl = Astro.url.href;
-const ogImage = image || '/og-image.jpg';
+
+// OG image: use Cloudinary at 1200×630 (standard Open Graph / Twitter card size).
+// jpg format is used deliberately — some social crawlers (LinkedIn, Slack) do not
+// support WebP in OG tags, so we request a JPEG for maximum compatibility.
+// Falls back to the plain `image` field, then to the site-wide default.
+const ogImage =
+  (cloudinaryId
+    ? getCloudinaryUrl(cloudinaryId, {
+        width: 1200,
+        height: 630,
+        crop: 'fill',
+        gravity: 'auto',
+        quality: 'auto',
+        format: 'jpg',
+      })
+    : '') ||
+  image ||
+  '/og-image.jpg';
 
 // Resolve the hero image — Cloudinary when available, plain URL as fallback.
 // Widths: 800px for most layouts, 1200px for large screens (container is max 1100px).
