@@ -1,4 +1,45 @@
+# ===========================================================================
+# robots.txt — spiritualshieldsystem.com
+# GEO Strategy: Allow AI search engines so content surfaces in ChatGPT,
+# Perplexity, and Claude search results. Block training-only scrapers.
+# ===========================================================================
+
+# Default: allow all crawlers; block the post-purchase confirmation page
 User-agent: *
+Disallow: /thank-you/
 Allow: /
 
+# ── AI Search Engines (allow — these power AI-generated search results) ─────
+
+# OpenAI ChatGPT browsing & Bing Search plugin
+User-agent: GPTBot
+Allow: /
+
+# ChatGPT real-time browsing sessions
+User-agent: ChatGPT-User
+Allow: /
+
+# Perplexity AI search index
+User-agent: PerplexityBot
+Allow: /
+
+# Anthropic Claude.ai search
+User-agent: anthropic-ai
+Allow: /
+
+# Older Anthropic crawler identifier
+User-agent: Claude-Web
+Allow: /
+
+# Google Gemini / AI Overviews (also keeps content in Search)
+User-agent: Google-Extended
+Allow: /
+
+# ── AI Training Scrapers (block — no search-result benefit; training only) ──
+
+# Common Crawl — used primarily for LLM training datasets
+User-agent: CCBot
+Disallow: /
+
+# ── Sitemap ──────────────────────────────────────────────────────────────────
 Sitemap: https://spiritualshieldsystem.com/sitemap-index.xml

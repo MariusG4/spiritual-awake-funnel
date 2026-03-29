@@ -22,6 +22,11 @@ interface Props {
    * "Video not on watch page" warning in Google Search Console.
    */
   videoSchema?: boolean;
+  /**
+   * Set to true ONLY on the homepage. Emits the Product schema with reviews and ratings.
+   * Keeping it scoped prevents incorrect rich-result eligibility on blog/index pages.
+   */
+  productSchema?: boolean;
 }
 
 const {
@@ -36,6 +41,7 @@ const {
   tags = [],
   faq = [],
   videoSchema = false,
+  productSchema = false,
 } = Astro.props;
 
 const isArticle = type === "article";
@@ -53,12 +59,39 @@ const absImage = _safeImage.startsWith('http')
   : new URL(_safeImage, Astro.url).href;
 
 // --- JSON-LD schemas ---
+const SITE_URL = "https://spiritualshieldsystem.com";
 const schemas: object[] = [
+  // Organization — defines the site entity for Google's Knowledge Graph
   {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
     name: "Shield Your Energy",
-    url: "https://spiritualshieldsystem.com",
+    alternateName: "Spiritual Shield System",
+    url: SITE_URL,
+    description:
+      "The authoritative resource for spiritual protection against psychic intrusion and energetic attacks. We provide practical shielding frameworks for individuals experiencing spiritual stalking, narcissistic energy vampires, and unwanted spiritual attachments.",
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/android-chrome-512x512.png`,
+      width: 512,
+      height: 512,
+    },
+    sameAs: [
+      "https://whop.com/escapenazis/surviving-spiritual-stalking",
+    ],
+  },
+  // WebSite — enables sitelinks search box eligibility in Google SERPs
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    name: "Shield Your Energy",
+    url: SITE_URL,
+    description:
+      "Practical spiritual protection frameworks against psychic intrusion, energetic attacks, and spiritual stalking.",
+    inLanguage: "en-US",
+    publisher: { "@id": `${SITE_URL}/#organization` },
   },
 ];
 
@@ -82,7 +115,8 @@ if (isArticle) {
       url: "https://spiritualshieldsystem.com",
     },
     ...(pubDate && { datePublished: pubDate.toISOString() }),
-    ...(updatedDate && { dateModified: updatedDate.toISOString() }),
+    // dateModified falls back to pubDate so every article always has this field
+    ...((updatedDate || pubDate) && { dateModified: (updatedDate ?? pubDate)!.toISOString() }),
     ...(tags.length > 0 && { keywords: tags.join(", ") }),
   });
 
@@ -138,8 +172,8 @@ if (isArticle) {
     description: description,
   });
 
-  // Product schema (for landing pages only)
-  schemas.push({
+  // Product schema — scoped to the homepage only via the `productSchema` prop
+  if (productSchema) schemas.push({
     "@context": "https://schema.org",
     "@type": "Product",
     name: "Surviving Spiritual Stalking – Shield Your Energy Access",
@@ -206,15 +240,19 @@ if (isArticle) {
 
 <!-- SEO Meta Tags -->
 <meta name="description" content={description} />
+<meta name="theme-color" content="#6d28d9" />
 <link rel="canonical" href={canonicalUrl} />
 {tags.length > 0 && <meta name="keywords" content={tags.join(", ")} />}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
+<meta property="og:site_name" content="Shield Your Energy" />
+<meta property="og:locale" content="en_US" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:image" content={absImage} />
+<meta property="og:image:alt" content={description} />
 
 <!-- Article-specific Open Graph tags -->
 {isArticle && author && <meta property="article:author" content={author} />}
@@ -224,10 +262,11 @@ if (isArticle) {
   )
 }
 {
-  isArticle && updatedDate && (
+  /* modified_time falls back to pubDate — every published article should have this tag */
+  isArticle && (updatedDate || pubDate) && (
     <meta
       property="article:modified_time"
-      content={updatedDate.toISOString()}
+      content={(updatedDate ?? pubDate)!.toISOString()}
     />
   )
 }
@@ -235,9 +274,11 @@ if (isArticle) {
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@ShieldYourEnergy" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={absImage} />
+<meta name="twitter:image:alt" content={description} />
 
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json" set:html={JSON.stringify(schemas)} />

@@ -6,6 +6,7 @@ updatedDate: 2026-03-13
 author: "Spiritual Shield System"
 image: "/images/og-image.png"
 cloudinaryId: "Understanding_Spiritual_Shielding_Basics"
+imageAlt: "Glowing protective energy field surrounding a human silhouette — illustrating the basics of spiritual shielding and psychic protection"
 tags:
   - spiritual shielding
   - psychic protection

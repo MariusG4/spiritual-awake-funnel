@@ -54,6 +54,7 @@ const {
   author,
   image,
   cloudinaryId,
+  imageAlt,
   tags = [],
   keyTakeaways = [],
   faq = [],
@@ -87,6 +88,19 @@ const heroImage = resolveImage(cloudinaryId, image, [800, 1200], {
   quality: 'auto',
   format: 'auto',
 });
+
+// --- Related Posts ---
+// Score other published posts by tag overlap with the current post;
+// fall back to recency so there are always recommendations.
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter(p => p.id !== post.id && p.data.pubDate <= new Date())
+  .map(p => ({
+    ...p,
+    score: (p.data.tags ?? []).filter(t => tags.includes(t)).length,
+  }))
+  .sort((a, b) => b.score - a.score || b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
 ---
 
 <LayoutOld
@@ -152,11 +166,12 @@ const heroImage = resolveImage(cloudinaryId, image, [800, 1200], {
               src={heroImage.src}
               srcset={heroImage.srcset}
               sizes="(max-width: 768px) 100vw, (max-width: 1100px) 80vw, 1100px"
-              alt={title}
+              alt={imageAlt || title}
+              fetchpriority="high"
               loading="eager"
               decoding="async"
-              width="1100"
-              height="619"
+              width="1200"
+              height="630"
             />
           </div>
         )}
@@ -179,12 +194,12 @@ const heroImage = resolveImage(cloudinaryId, image, [800, 1200], {
 
         <!-- Key Takeaways -->
         {keyTakeaways.length > 0 && (
-          <div class="key-takeaways mb-8">
-            <h2 class="kt-title">⚡ Key Takeaways</h2>
+          <section class="key-takeaways mb-8" aria-labelledby="kt-heading">
+            <h2 id="kt-heading" class="kt-title">⚡ Key Takeaways</h2>
             <ul>
               {keyTakeaways.map(point => <li>{point}</li>)}
             </ul>
-          </div>
+          </section>
         )}
 
         <!-- Article body -->
@@ -237,6 +252,34 @@ const heroImage = resolveImage(cloudinaryId, image, [800, 1200], {
       )}
 
     </div>
+
+    <!-- Related Posts -->
+    {relatedPosts.length > 0 && (
+      <section class="related-posts mt-12" aria-labelledby="related-heading">
+        <h2 id="related-heading" class="related-title">Continue Reading</h2>
+        <div class="related-grid">
+          {relatedPosts.map(p => {
+            const thumb = p.data.cloudinaryId
+              ? getCloudinaryUrl(p.data.cloudinaryId, { width: 600, height: 315, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })
+              : p.data.image || '/og-image.jpg';
+            return (
+              <a href={`/blog/${p.id}`} class="related-card glass-panel">
+                {thumb && (
+                  <div class="related-thumb">
+                    <img src={thumb} alt={p.data.imageAlt || p.data.title} loading="lazy" decoding="async" width="600" height="315" />
+                  </div>
+                )}
+                <div class="related-card-body">
+                  <h3 class="related-card-title">{p.data.title}</h3>
+                  <p class="related-card-desc">{p.data.description}</p>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
   </main>
 </LayoutOld>
 
@@ -567,4 +610,72 @@ const heroImage = resolveImage(cloudinaryId, image, [800, 1200], {
     text-decoration: none;
   }
   .back-link:hover { color: var(--text-main); }
+
+  /* ─── Related Posts ─── */
+  .related-posts {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .related-title {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 1.25rem;
+    font-weight: 700;
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .related-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .related-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+  }
+  .related-thumb {
+    width: 100%;
+    aspect-ratio: 40 / 21;
+    overflow: hidden;
+    background: rgba(0,0,0,0.4);
+  }
+  .related-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .related-card-body {
+    padding: 1rem 1.25rem 1.25rem;
+    flex: 1;
+  }
+  .related-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
+  }
+  .related-card-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 </style>

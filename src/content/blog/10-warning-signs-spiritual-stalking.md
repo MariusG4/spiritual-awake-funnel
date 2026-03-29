@@ -5,6 +5,7 @@ pubDate: 2026-03-14
 author: "Spiritual Shield System"
 image: "/images/og-image.png"
 cloudinaryId: "10_Warning_Signs_Spiritual_Stalking"
+imageAlt: "10 warning signs of spiritual stalking — ethereal figure surrounded by ominous shadowy energy symbolizing psychic intrusion"
 tags:
   - spiritual stalking
   - signs of spiritual attack

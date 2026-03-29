@@ -5,6 +5,7 @@ pubDate: 2026-03-23
 author: "Spiritual Shield System"
 image: "/images/hero-prison-light.png"
 cloudinaryId: "How_People_Survived_Spiritual_Attacks_Throughout_History"
+imageAlt: "Prison window with rays of light breaking through bars — representing spiritual resilience and recovery from spiritual attacks throughout history"
 tags:
   - spiritual attack recovery
   - spiritual warfare history

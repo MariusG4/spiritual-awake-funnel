@@ -16,6 +16,8 @@ interface Props {
   faq?: any[];
   /** Pass true only on the page that actually embeds the shielding video. */
   videoSchema?: boolean;
+  /** Pass true only on the homepage to emit the Product schema. */
+  productSchema?: boolean;
 }
 
 const { title, description = "Stop Unwanted Spiritual Intrusion Before It Escalates", ...seoProps } = Astro.props;
@@ -88,6 +90,10 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 		<!-- Lottie Player JS -->
 		<script async defer src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 		
+		<!-- Cloudinary CDN — preconnect so hero images load without DNS delay -->
+		<link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+		<link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
 		<!-- Cloudflare Turnstile -->
 		<link rel="preconnect" href="https://challenges.cloudflare.com">
 		<script
