@@ -178,6 +178,103 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 				});
 			});
 		</script>
+
+		<!-- Site-wide Footer -->
+		<footer class="site-footer">
+			<div class="footer-inner">
+
+				<!-- Brand column — mirrors Organization JSON-LD name + description -->
+				<div class="footer-brand">
+					<p class="footer-logo">🛡️ Spiritual Shield System</p>
+					<p class="footer-tagline">
+						The authoritative resource for spiritual protection, psychic self-defense,
+						and energy management against spiritual stalking, energetic attacks, and
+						metaphysical threats — providing practical shielding frameworks without
+						years of esoteric training.
+					</p>
+				</div>
+
+				<!-- Primary navigation + E-E-A-T contact signal -->
+				<nav class="footer-nav" aria-label="Site navigation links">
+					<p class="footer-nav-label">Explore</p>
+					<ul class="footer-nav-list">
+						<li>
+							<a href="/" title="Spiritual Shield System — Home">Home</a>
+						</li>
+						<li>
+							<a href="/blog" title="Spiritual protection articles and psychic defense guides">Blog</a>
+						</li>
+						<li>
+							<a
+								href="mailto:support@spiritualshieldsystem.com"
+								title="Contact Spiritual Shield System support"
+							>
+								Contact Support
+							</a>
+						</li>
+						<li>
+							<a
+								href="https://whop.com/escapenazis/surviving-spiritual-stalking"
+								target="_blank"
+								rel="noopener noreferrer"
+								title="Join the private spiritual protection and energy management community"
+							>
+								Join the Community ↗
+							</a>
+						</li>
+					</ul>
+				</nav>
+
+				<!-- Popular Resources — cornerstone internal links for crawl depth + link equity -->
+				<nav class="footer-nav" aria-label="Popular resources">
+					<p class="footer-nav-label">Popular Resources</p>
+					<ul class="footer-nav-list">
+						<li>
+							<a
+								href="/blog/10-warning-signs-spiritual-stalking"
+								title="Identify the 10 warning signs of spiritual stalking and psychic intrusion"
+							>
+								10 Warning Signs of Spiritual Stalking
+							</a>
+						</li>
+						<li>
+							<a
+								href="/blog/understanding-spiritual-shielding-basics"
+								title="Learn the basics of spiritual shielding and metaphysical protection"
+							>
+								Spiritual Shielding Basics
+							</a>
+						</li>
+						<li>
+							<a
+								href="/blog/spiritual-warfare-signs"
+								title="Discover hidden signs of spiritual warfare and energetic attack"
+							>
+								Hidden Signs of Spiritual Warfare
+							</a>
+						</li>
+						<li>
+							<a
+								href="/blog/ancient-war-spiritual-harassment"
+								title="Explore the ancient history of spiritual harassment and psychic self-defense"
+							>
+								The Ancient War: Spiritual Harassment
+							</a>
+						</li>
+					</ul>
+				</nav>
+
+			</div>
+
+			<div class="footer-bottom">
+				<p class="footer-copy">
+					© <span id="footer-year"></span> Shield Your Energy. All rights reserved.
+				</p>
+			</div>
+		</footer>
+		<script is:inline>
+			document.getElementById('footer-year').textContent = new Date().getFullYear();
+		</script>
 	</body>
 </html>
 
@@ -202,5 +299,107 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 		.sticky-bar {
 			font-size: 0.8rem;
 		}
+	}
+
+	/* ─── Site Footer ─────────────────────────────────────────────────────── */
+	.site-footer {
+		position: relative;
+		background: var(--glass-bg, rgba(255, 255, 255, 0.04));
+		border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08));
+		margin-top: 4rem;
+	}
+	/* Gradient accent line — mirrors the sticky-bar colorway */
+	.site-footer::before {
+		content: '';
+		display: block;
+		height: 3px;
+		background: linear-gradient(90deg, var(--secondary), var(--primary));
+	}
+
+	.footer-inner {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 3rem 1.5rem 2rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+		text-align: center;
+	}
+	/* Tablet: brand spans full width; two nav columns side-by-side */
+	@media (min-width: 640px) {
+		.footer-inner {
+			grid-template-columns: 1fr 1fr;
+			text-align: left;
+		}
+		.footer-brand {
+			grid-column: 1 / -1;
+		}
+	}
+	/* Desktop: true three-column layout — brand wider, two compact nav columns */
+	@media (min-width: 900px) {
+		.footer-inner {
+			grid-template-columns: 2fr 1fr 1.5fr;
+		}
+		.footer-brand {
+			grid-column: auto;
+		}
+	}
+
+	/* Brand column */
+	.footer-logo {
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: var(--text-main);
+		margin: 0 0 0.75rem;
+		letter-spacing: 0.01em;
+	}
+	.footer-tagline {
+		font-size: 0.9rem;
+		color: var(--text-muted);
+		line-height: 1.65;
+		margin: 0;
+		max-width: 340px;
+	}
+	@media (max-width: 639px) {
+		.footer-tagline { margin-inline: auto; }
+	}
+
+	/* Nav column */
+	.footer-nav-label {
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--text-muted);
+		margin: 0 0 0.85rem;
+	}
+	.footer-nav-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+	.footer-nav-list a {
+		font-size: 0.95rem;
+		color: var(--text-muted);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+	.footer-nav-list a:hover {
+		color: var(--primary);
+	}
+
+	/* Bottom bar */
+	.footer-bottom {
+		border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08));
+		padding: 1rem 1.5rem;
+		text-align: center;
+	}
+	.footer-copy {
+		margin: 0;
+		font-size: 0.82rem;
+		color: var(--text-muted);
 	}
 </style>
