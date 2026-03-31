@@ -1,0 +1,273 @@
+---
+/**
+ * NewsletterSignup.astro
+ *
+ * Reusable Brevo subscription form with glassmorphism styling.
+ *
+ * Props:
+ *   variant  - 'block'  (default) — full card with headline, used in blog posts
+ *            - 'inline' — compact strip with text + form side-by-side, used in footer
+ */
+interface Props {
+  variant?: 'block' | 'inline';
+}
+
+const { variant = 'block' } = Astro.props;
+---
+
+<section class={`ns ns--${variant}`} aria-label="Newsletter signup">
+  <div class="ns-inner">
+
+    <div class="ns-text">
+      <p class="ns-headline">🛡️ Join 100+ Others Mastering Psychic Self-Defense</p>
+      <p class="ns-subline">
+        Get weekly energy management protocols, shielding techniques, and spiritual
+        protection frameworks — delivered to your inbox. Free.
+      </p>
+    </div>
+
+    <div class="ns-form-wrap">
+      <!-- data-ns-form is the JS hook; no IDs needed for dedup across multiple instances -->
+      <form class="ns-form" data-ns-form novalidate>
+        <div class="ns-field-row">
+          <input
+            type="email"
+            class="ns-input"
+            placeholder="your@email.com"
+            autocomplete="email"
+            required
+            aria-required="true"
+            aria-label="Email address"
+          />
+          <button type="submit" class="ns-btn">
+            <span class="ns-btn-text">Get Free Protocols</span>
+            <span class="ns-btn-loading" aria-hidden="true">Sending…</span>
+          </button>
+        </div>
+        <p class="ns-error" role="alert" aria-live="polite"></p>
+      </form>
+
+      <!-- Success state — rendered server-side, shown via JS after submission -->
+      <div class="ns-success" hidden role="status" aria-live="polite">
+        <p>
+          ✅ <strong>Check your inbox!</strong> We sent you a confirmation link —
+          click it to activate your free weekly protocols.
+        </p>
+      </div>
+
+      <p class="ns-privacy">
+        🔒 No spam, ever. By subscribing you agree to our
+        <a href="/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>.
+        We use your email only to send weekly spiritual protection guides. Unsubscribe anytime.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ── Wrapper ─────────────────────────────────────────────────────────────── */
+  .ns { width: 100%; }
+
+  /* BLOCK — full glassmorphism card (blog lead-magnet) */
+  .ns--block { margin: 3rem 0; }
+  .ns--block .ns-inner {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    padding: 2.5rem 2rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: grid;
+    gap: 1.75rem;
+  }
+  @media (min-width: 640px) {
+    .ns--block .ns-inner { grid-template-columns: 1fr 1fr; align-items: start; }
+  }
+
+  /* INLINE — compact strip (footer band) */
+  .ns--inline .ns-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 2rem;
+    align-items: flex-start;
+  }
+  .ns--inline .ns-text    { flex: 1 1 240px; }
+  .ns--inline .ns-form-wrap { flex: 1 1 280px; }
+
+  /* ── Typography ──────────────────────────────────────────────────────────── */
+  .ns-headline {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 0.5rem;
+    line-height: 1.3;
+  }
+  .ns--inline .ns-headline { font-size: 1.05rem; }
+
+  .ns-subline {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .ns--inline .ns-subline { font-size: 0.875rem; }
+
+  /* ── Form elements ───────────────────────────────────────────────────────── */
+  .ns-field-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .ns-input {
+    flex: 1 1 200px;
+    padding: 0.7rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color var(--transition-fast, 0.2s);
+    /* Prevent CLS: keep height fixed */
+    min-height: 2.75rem;
+  }
+  .ns-input::placeholder { color: var(--text-muted); }
+  .ns-input:focus         { border-color: var(--primary); }
+  .ns-input[aria-invalid="true"] { border-color: #f87171; }
+
+  .ns-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.7rem 1.15rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s, transform 0.2s;
+    /* Prevent CLS: reserve same height as input */
+    min-height: 2.75rem;
+  }
+  .ns-btn:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+  .ns-btn:disabled              { opacity: 0.65; cursor: not-allowed; }
+
+  /* Loading spinner text — visible only while submitting */
+  .ns-btn-loading[hidden], .ns-btn-text[hidden] { display: none; }
+
+  .ns-error {
+    font-size: 0.82rem;
+    color: #f87171;
+    margin: 0.4rem 0 0;
+    /* Reserve space to avoid layout shift when error appears */
+    min-height: 1.1em;
+  }
+
+  /* ── States ──────────────────────────────────────────────────────────────── */
+  .ns-success {
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 0.5rem;
+    padding: 0.9rem 1.1rem;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── GDPR micro-copy ─────────────────────────────────────────────────────── */
+  .ns-privacy {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin: 0.65rem 0 0;
+    line-height: 1.55;
+  }
+  .ns-privacy a {
+    color: var(--primary);
+    text-underline-offset: 2px;
+  }
+  .ns-privacy a:hover { text-decoration: underline; }
+
+  /* ── Mobile adjustments ──────────────────────────────────────────────────── */
+  @media (max-width: 460px) {
+    .ns-field-row { flex-direction: column; }
+    .ns-btn       { width: 100%; }
+  }
+</style>
+
+<!-- Astro deduplicates this <script> block even when the component is used multiple times. -->
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-ns-form]').forEach((form) => {
+    const wrap    = form.closest<HTMLElement>('.ns-form-wrap')!;
+    const input   = form.querySelector<HTMLInputElement>('input[type="email"]')!;
+    const errorEl = form.querySelector<HTMLParagraphElement>('.ns-error')!;
+    const success = wrap.querySelector<HTMLElement>('.ns-success')!;
+    const btnText = form.querySelector<HTMLSpanElement>('.ns-btn-text')!;
+    const btnSpin = form.querySelector<HTMLSpanElement>('.ns-btn-loading')!;
+    const btn     = form.querySelector<HTMLButtonElement>('[type="submit"]')!;
+
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function isValid(val: string) { return EMAIL_RE.test(val.trim()); }
+
+    function showError(msg: string) {
+      errorEl.textContent = msg;
+      input.setAttribute('aria-invalid', 'true');
+    }
+    function clearError() {
+      errorEl.textContent = '';
+      input.removeAttribute('aria-invalid');
+    }
+
+    input.addEventListener('blur', () => {
+      if (input.value && !isValid(input.value)) showError('Please enter a valid email address.');
+      else clearError();
+    });
+    input.addEventListener('input', () => { if (errorEl.textContent) clearError(); });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!isValid(input.value)) {
+        showError('Please enter a valid email address.');
+        input.focus();
+        return;
+      }
+
+      btn.disabled = true;
+      btnText.hidden = true;
+      btnSpin.hidden = false;
+      clearError();
+
+      try {
+        const res  = await fetch('/.netlify/functions/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: input.value.trim() }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          form.hidden    = true;
+          success.hidden = false;
+        } else {
+          showError(data.error ?? 'Something went wrong. Please try again.');
+          btn.disabled   = false;
+          btnText.hidden = false;
+          btnSpin.hidden = true;
+        }
+      } catch {
+        showError('Network error. Please check your connection and try again.');
+        btn.disabled   = false;
+        btnText.hidden = false;
+        btnSpin.hidden = true;
+      }
+    });
+  });
+</script>
+

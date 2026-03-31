@@ -34,7 +34,6 @@ faq:
     answer: "The guide documents cases where significant change occurred within 24 to 48 hours of recognition and initial action. Full recovery depends on how long the attack has been sustained. The earlier you act, the faster and more complete the recovery."
 ---
 
-![How People Survived Spiritual Attacks Throughout History](/images/hero-prison-light.jpg)
 
 Category: Spiritual Protection · Reading time: 12 min
 

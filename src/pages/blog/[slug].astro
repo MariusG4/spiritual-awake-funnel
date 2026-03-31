@@ -2,6 +2,7 @@
 import LayoutOld from '../../layouts/LayoutOld.astro';
 import { getCollection, render } from 'astro:content';
 import { resolveImage, getCloudinaryUrl } from '../../lib/cloudinary';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
@@ -252,6 +253,9 @@ const relatedPosts = allPosts
       )}
 
     </div>
+
+    <!-- Newsletter Lead Magnet — inserted between article content and Related Posts -->
+    <NewsletterSignup variant="block" />
 
     <!-- Related Posts -->
     {relatedPosts.length > 0 && (

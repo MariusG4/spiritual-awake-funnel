@@ -2,6 +2,7 @@
 import '../styles/global-old.css';
 
 import SEO from '../components/SEO.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
 
 interface Props {
   title: string;
@@ -181,6 +182,14 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 
 		<!-- Site-wide Footer -->
 		<footer class="site-footer">
+
+			<!-- Newsletter band — full-width, sits above the nav columns -->
+			<div class="footer-newsletter-band">
+				<div class="footer-newsletter-inner">
+					<NewsletterSignup variant="inline" />
+				</div>
+			</div>
+
 			<div class="footer-inner">
 
 				<!-- Brand column — mirrors Organization JSON-LD name + description -->
@@ -401,5 +410,15 @@ const META_PIXEL_ID = import.meta.env.META_PIXEL_ID || 'XXXXXXXXXX';
 		margin: 0;
 		font-size: 0.82rem;
 		color: var(--text-muted);
+	}
+
+	/* ── Footer newsletter band ────────────────────────────────────────────── */
+	.footer-newsletter-band {
+		border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08));
+	}
+	.footer-newsletter-inner {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
 	}
 </style>

@@ -38,7 +38,6 @@ faq:
     answer: "Start with the Surviving Spiritual Stalking guide. It is the most practical, experience-based resource available for people in the early stages of recognition. It gives you the framework to understand what is happening and the specific steps to begin breaking free — starting tonight."
 ---
 
-![spiritual warfare signs — light breaking through darkness](/images/hero-prison-light.jpg)
 
 You feel it before you can name it.
 
