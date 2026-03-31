@@ -19,10 +19,10 @@ const { variant = 'block' } = Astro.props;
   <div class="ns-inner">
 
     <div class="ns-text">
-      <p class="ns-headline">🛡️ Join 100+ Others Mastering Psychic Self-Defense</p>
+      <p class="ns-headline">🛡️ Join 100+ Others Learning Spiritual Discernment
+</p>
       <p class="ns-subline">
-        Get weekly energy management protocols, shielding techniques, and spiritual
-        protection frameworks — delivered to your inbox. Free.
+        Get weekly guidance on wisdom, discernment, spiritual awareness, and practical ways to stay grounded in truth — delivered to your inbox. Free.
       </p>
     </div>
 
@@ -41,7 +41,7 @@ const { variant = 'block' } = Astro.props;
           />
           <button type="submit" class="ns-btn">
             <span class="ns-btn-text">Get Free Protocols</span>
-            <span class="ns-btn-loading" aria-hidden="true">Sending…</span>
+            <span class="ns-btn-loading" aria-hidden="true" hidden>Sending…</span>
           </button>
         </div>
         <p class="ns-error" role="alert" aria-live="polite"></p>
@@ -91,6 +91,9 @@ const { variant = 'block' } = Astro.props;
     flex-wrap: wrap;
     gap: 1.25rem 2rem;
     align-items: flex-start;
+    /* Inline variant lives inside .footer-newsletter-inner which handles
+       horizontal padding; the component itself only needs no extra padding. */
+    padding: 0;
   }
   .ns--inline .ns-text    { flex: 1 1 240px; }
   .ns--inline .ns-form-wrap { flex: 1 1 280px; }
@@ -198,6 +201,8 @@ const { variant = 'block' } = Astro.props;
   @media (max-width: 460px) {
     .ns-field-row { flex-direction: column; }
     .ns-btn       { width: 100%; }
+    /* Reduce block card padding on small screens to avoid cramped feel */
+    .ns--block .ns-inner { padding: 1.5rem 1.25rem; gap: 1.25rem; }
   }
 </style>
 
