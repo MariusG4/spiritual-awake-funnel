@@ -6,6 +6,7 @@ author: "Spiritual Shield System"
 image: "/images/og-image.png"
 cloudinaryId: "Mystical_Insights_Revealed_aul9jt"
 imageAlt: "Mystical ancient manuscript with glowing symbols — revealing hidden signs of spiritual warfare documented across centuries"
+category: "Spiritual Warfare"
 tags:
   - spiritual warfare signs
   - spiritual attack symptoms

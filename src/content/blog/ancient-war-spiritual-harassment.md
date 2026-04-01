@@ -6,6 +6,7 @@ author: "Spiritual Shield System"
 image: "/images/og-image.png"
 cloudinaryId: "Ancient_War_Spiritual_Harassment"
 imageAlt: "Ancient spiritual warfare — crumbling stone relief with dramatic light and shadow representing centuries-old hidden spiritual conflict"
+category: "Spiritual Warfare"
 tags:
   - spiritual harassment
   - spiritual warfare

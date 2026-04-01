@@ -23,6 +23,17 @@ const blogCollection = defineCollection({
          * Falls back to the post title when absent.
          */
         imageAlt: z.string().optional(),
+        /**
+         * Primary category for the post. Used to display a badge on the blog
+         * index and post pages and to group content thematically.
+         */
+        category: z.enum([
+            'Discernment',
+            'Spiritual Warfare',
+            'Protection',
+            'Recovery',
+            'Biblical Teaching',
+        ]),
         tags: z.array(z.string()).optional(),
         keyTakeaways: z.array(z.string()).optional(),
         faq: z.array(z.object({
