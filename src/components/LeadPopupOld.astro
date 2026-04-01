@@ -132,13 +132,12 @@ const {
     };
     fetchScarcity();
 
-    // Form Submission Logic
+    // Form Submission Logic — dual-write to Supabase (via /lead) and Brevo (via /subscribe)
     form?.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
       if (!submitBtn) return;
-      const originalText = submitBtn.innerHTML;
 
       const formData = new FormData(form);
       const name = formData.get("name") as string;
@@ -154,37 +153,51 @@ const {
       submitBtn.disabled = true;
       submitBtn.innerHTML = "Saving… ⏳";
 
-      let functionOk = false;
-      try {
-        const payload = Object.fromEntries(formData.entries());
-        payload.source = "spiritual_stalking_funnel";
+      // ── Supabase write (existing logic — unchanged) ─────────────────────────
+      const leadPayload = Object.fromEntries(formData.entries());
+      leadPayload.source = "spiritual_stalking_funnel";
 
-        const response = await fetch("/.netlify/functions/lead", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
+      const supabaseWrite = fetch("/.netlify/functions/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(leadPayload),
+      }).then(async (res) => {
+        const result = await res.json().catch(() => ({}));
+        if (!res.ok || !result.success) throw new Error(result?.error || `HTTP ${res.status}`);
+        return result;
+      });
 
-        const result = await response.json();
+      // ── Brevo write (new — subscribe function, email only) ──────────────────
+      const brevoWrite = fetch("/.netlify/functions/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      }).then(async (res) => {
+        const result = await res.json().catch(() => ({}));
+        if (!res.ok || !result.success) throw new Error(result?.error || `HTTP ${res.status}`);
+        return result;
+      });
 
-        if (!response.ok || !result.success) {
-          console.error("Function error:", result);
-          submitBtn.innerHTML = "⚠️ Error — retrying…";
-          // Still continue — never block the user from checking out
-        } else {
-          console.log("✅ Lead saved:", email);
-          functionOk = true;
-          submitBtn.innerHTML = "✅ Saved! Redirecting…";
-        }
-      } catch (err) {
-        console.error("Function request failed:", err);
+      // ── Fire both in parallel; neither blocks the other ─────────────────────
+      const [supabaseResult, brevoResult] = await Promise.allSettled([supabaseWrite, brevoWrite]);
+
+      const supabaseOk = supabaseResult.status === "fulfilled";
+      const brevoOk    = brevoResult.status === "fulfilled";
+      const atLeastOne = supabaseOk || brevoOk;
+
+      if (!supabaseOk) console.error("Supabase write failed:", (supabaseResult as PromiseRejectedResult).reason);
+      if (!brevoOk)    console.error("Brevo write failed:",    (brevoResult as PromiseRejectedResult).reason);
+
+      if (atLeastOne) {
+        console.log(`✅ Lead saved (supabase=${supabaseOk}, brevo=${brevoOk}):`, email);
+        submitBtn.innerHTML = "✅ Saved! Redirecting…";
+      } else {
+        console.error("Both writes failed for:", email);
         submitBtn.innerHTML = "⚠️ Error — redirecting anyway…";
       }
 
       // Small visual pause so the user sees the feedback, then redirect
-      await new Promise((r) => setTimeout(r, functionOk ? 600 : 1200));
+      await new Promise((r) => setTimeout(r, atLeastOne ? 600 : 1200));
 
       const targetUrl = leadPopup?.dataset.targetUrl || whopLink;
       const redirectUrl = new URL(targetUrl);
