@@ -51,14 +51,6 @@ What you're experiencing has a name. It has a documented history. And it has bee
 
 This isn't about religion. This isn't about being crazy. This is about knowledge — and the fact that some people have it, and most people don't.
 
-## ⚡ Key Takeaways
-
-- Spiritual stalking is real, documented, and follows a predictable 3-phase pattern
-- The most targeted people are independent, valuable, or have crossed paths with those operating in darkness
-- You don't need to be religious to be affected — this happens whether you believe in it or not
-- The moment you understand what's being done to you, their greatest weapon (your confusion) disappears
-- Knowledge is not just power here — it is the only real defense
-
 ## What Is Actually Happening to You
 
 Let's cut through the noise.
