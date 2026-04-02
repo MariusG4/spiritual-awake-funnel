@@ -5,7 +5,7 @@ description: "Ancient texts, documented history, and real survivor accounts reve
 pubDate: 2026-04-03
 author: "Spiritual Shield System"
 image: "/images/og-image.png"
-cloudinaryId: "NONE2"
+cloudinaryId: ""
 imageAlt: "Shadowy figure standing behind a person in a crowd — representing how spiritual attackers work through human agents without the victim's knowledge"
 category: "Spiritual Warfare"
 tags:

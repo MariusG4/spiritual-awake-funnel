@@ -4,7 +4,7 @@ description: "If you keep getting destroyed by people with no morals and no cons
 pubDate: 2026-04-02
 author: "Spiritual Shield System"
 image: "/images/og-image.png"
-cloudinaryId: "NONE"
+cloudinaryId: ""
 imageAlt: "A lone figure standing in light surrounded by darkness — representing a good person outnumbered by corrupt forces"
 category: "Spiritual Warfare"
 
