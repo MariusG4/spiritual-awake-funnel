@@ -45,13 +45,6 @@ You are not fighting the person in front of you. 😶 You never were. The cowork
 
 Here's what nobody tells you — and what the most serious spiritual scholars in history documented with stunning precision: **The people in your life are not always acting on their own.** And the force working through them has been doing this for a very, very long time. This is not a metaphor. This is not religious language. This is a documented operational reality that has been destroying lives — and being survived — for thousands of years. And the only thing standing between you and that survival is **knowledge**.
 
-⚡ **Key Takeaways**  
-- "Satan does not attack you directly — he works through people around you, often people you trust."  
-- "The attack follows a documented pattern: first your mind, then your behavior, then your relationships, then your physical world."  
-- "Designing people deliberately take advantage of confusion and emotional excitement to further their own agendas."  
-- "The people being used against you may not even know they are being used — that is how the system works."  
-- "Knowledge is the only real weapon. The moment you understand the mechanism, the attack loses its primary power over you."
-
 ---
 
 ## The Mechanism Nobody Explains to You
@@ -221,25 +214,6 @@ That advantage ends the moment you decide it ends.
 💪 **The knowledge exists. The historical record is clear. The path out has been walked before — by people in far more dangerous circumstances than yours, with far fewer resources than you have access to right now.**  
 
 The only question is whether you will take the first step.  
-
----
-
-## Frequently Asked Questions  
-
-### Can someone spiritually attack me without knowing they are doing it?  
-Yes. This is one of the most documented and most misunderstood aspects of spiritual harassment. People with weak spiritual defenses — those living in sin, those under the influence of occult groups, those who have opened doors through addiction or compromise — can become instruments of attack without any conscious awareness. The spirit operating through them is the source. They are the channel.  
-
-### How do I know if my own thoughts are being influenced?  
-The key marker is **foreignness**. Your normal thoughts — even anxious ones — feel like you. Influenced thoughts feel **placed**. They arrive without context, loop without resolution, and carry an emotional charge that is disproportionate to anything in your actual life. They often target your weakest points with surgical precision.  
-
-### What if the person being used against me is someone I love?  
-This is the hardest part. The guide is clear: the people being used may not know they are being used. Your response should not be anger toward them — it should be **strategic distance** while you address the root connection. Cutting the spiritual tie is the priority. The relationship can be evaluated after.  
-
-### Is this only a problem for religious people?  
-No. In fact, people with no spiritual awareness are the easiest targets. You do not need to believe in the spiritual realm for it to affect you. The people using these techniques against you are counting on your disbelief. It keeps you confused, keeps you from naming what is happening, and keeps you from defending yourself.  
-
-### Where do I start right now?  
-Start with the *Surviving Spiritual Stalking* guide. It is the most practical, experience-based resource available for people in the early stages of recognition. It gives you the exact framework to understand what is happening and the specific steps to begin breaking free — starting tonight.  
 
 ---
 

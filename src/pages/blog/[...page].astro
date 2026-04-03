@@ -116,7 +116,7 @@ const canonicalUrl = isPageOne
 
         {/* Pagination Controls */}
         {
-            page.totalPages > 1 && (
+            page.lastPage > 1 && (
                 <nav class="pagination" aria-label="Blog pagination">
                     {page.url.prev && (
                         <a
@@ -128,7 +128,7 @@ const canonicalUrl = isPageOne
                     )}
                     <div class="pagination-numbers">
                         {Array.from(
-                            { length: page.totalPages },
+                            { length: page.lastPage },
                             (_, i) => i + 1,
                         ).map((pageNum) =>
                             pageNum === page.currentPage ? (
