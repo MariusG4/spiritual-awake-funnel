@@ -2,6 +2,12 @@
   command = "npm run build"
   publish = "dist"
 
+[functions]
+  directory = "netlify/functions"
+
+[functions."scheduled-deploy"]
+  schedule = "0 0 * * *"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
